@@ -10,6 +10,11 @@ body, html, .page-container {
     font-family: 'Open Sans Hebrew', 'openSans-Light', 'Rubik', sans-serif;
 }
 
+header > .top-head > aside {
+    width: 50%;
+    min-width: 290px;
+}
+
 .easy-transition {
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
@@ -18,23 +23,38 @@ body, html, .page-container {
     transition: all 0.5s ease;
 }
 
+.text-align-center { text-align: center; }
+.text-align-left { text-align: left; }
+.text-align-right { text-align: right; }
+
 /*----/ TEXTS /----*/
-h1, h2, h3, h4, h5 {
+h1, h2, h3, h4, h5, p, pre {
+    width: 100%;
 }
 
 a {
     text-decoration: none;
-    font-size: 12px;
+    font-size: 14px;
 }
+
+footer a { color: white; }
 
     a:hover {
         opacity: 0.7;
     }
 
 p {
-    font-size: 12px;
-    font-weight: 200;
+    font-size: 17px;
+    font-weight: 400;
     color: #1e1e1e;
+}
+
+footer p { font-size: 14px; }
+
+pre {
+    font-size: 14px;
+    font-weight: 400;
+    font-family: 'Open Sans Hebrew', 'openSans-Light', 'Rubik', sans-serif;
 }
 
 .widgets-title {
@@ -88,18 +108,16 @@ footer p {
     background-size: 10px;
 }
 
-.logo-img {
+.logo-img, .logo-img-inverted {
     cursor: pointer;
-    width: 175px;
-    height: 68px;
-    background-image: url('../imgs/logo.png');
-}
-
-.logo-img-inverted {
-    cursor: pointer;
-    width: 175px;
+    width: 100%;
+    max-width: 178px;
     height: 68px;
     background-image: url('../imgs/logo_inverted.png');
+}
+
+.logo-img {
+    background-image: url('../imgs/logo.png');
 }
 
 /*----/ BUTTONS /----*/
@@ -269,6 +287,11 @@ button {
     width: 100%;
 }
 
+
+
+.logo-holder { 
+}
+
 .head-nav {
     height: 30px;
 }
@@ -288,7 +311,7 @@ button {
         height: 100%;
         border: 1px solid transparent;
         margin: 10px 0;
-        font-size: 12px;
+        font-size: 14px;
         list-style-type: none;
     }
 

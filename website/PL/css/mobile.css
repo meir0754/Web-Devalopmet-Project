@@ -1,0 +1,38 @@
+@media only screen and (max-width: 1280px) {
+    
+}
+@media only screen and (max-width: 1080px) {	
+	.page-wrapper { max-width: 768px; }
+}
+@media only screen and (min-width: 0px ) and (max-width: 768px) {
+	header > .top-head > aside, header > .bottom-head, .top-foot > .social-btns-holder, .footer-widgets-holder, .foot-widget-elem, .foot-widget-elem > * {
+        justify-content: center !important;
+        -webkit-justify-content: center !important;
+        -webkit-box-flex: center !important;
+        -webkit-box-pack: center !important;
+        -webkit-box-align: center !important;
+        -moz-box-align: center !important;
+        -moz-box-pack: center !important;
+        -ms-flex-pack: center !important;
+    }
+
+    header > .top-head { height: 150px; }
+    header > .top-head > aside { width: 100%; }
+
+    .foot-widget-elem a { width: 100%; }
+    .top-foot { min-height: 140px; }
+    .top-foot > .social-btns-holder { width: 100%; }
+    .top-foot > button { margin: 0 auto; }
+    .foot-widget-elem > * { text-align: center; }
+    .foot-widget-elem { 
+        width: 100%;
+        margin: 25px 0 !important; 
+    }
+    .quick-contact-form-widget > button { 
+        width: 25%;
+        margin: 25px auto; 
+    } 
+}
+@media only screen and (max-width: 420px) {
+	 
+} 

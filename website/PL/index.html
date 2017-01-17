@@ -14,6 +14,7 @@
 
     <!--/ StyleSheets /-->
     <link type="text/css" rel="stylesheet" href="css/style.css">
+    <link type="text/css" rel="stylesheet" href="css/mobile.css">
     <link type="text/css" rel="stylesheet" href="css/homeStyle.css">
     <link type="text/css" rel="stylesheet" href="css/loaderAnim.css">
 
@@ -25,7 +26,6 @@
     <script type="text/javascript" src="js/globalHendler.js"></script>
     <script type="text/javascript" src="js/homeHendler.js"></script>
     <script type="text/javascript" src="js/imgsPreLoader.js"></script>
-    <script type="text/javascript" src="js/pace.js"></script>
     
     <!--/ Helpers /-->
 </head>
@@ -33,17 +33,17 @@
     <div id="page-container" class="page-container easy-transition">
         <header class="page-header" data-display="flex" data-flex-direction="column">
             <div class="top-head page-wrapper" data-display="flex" data-align-items="start" data-justify-content="space-between">
-                <aside class="logo-holder">
+                <aside class="logo-holder" data-display="flex" data-justify-content="start">
                     <div class="logo-img-inverted img-center-align"></div>
                 </aside>
-                <aside class="quick-links-holder" data-display="flex" data-justify-content="space-between">
+                <aside class="quick-links-holder" data-display="flex" data-justify-content="end">
                     <button class="quick-btn quick-call-btn btn-img-align">חייג</button>
                     <button class="quick-btn quick-nav-btn btn-img-align">נווט</button>
                 </aside>
             </div><!--/ END: top-head /-->
             <div class="bottom-head page-wrapper" data-display="flex" data-justify-content="end">
                 <nav class="head-nav" data-display="flex" data-justify-content="end">
-                    <a href="#" id="nav-home-Btn" class="nav-btn easy-transition">בית</a>
+                    <a href="index.html" id="nav-home-Btn" class="nav-btn easy-transition">בית</a>
                     <div id="" class="nav-drop-menu-holder easy-transition nav-btn" data-display="flex" data-align-items="start">
                         <a href="#" id="nav-search-Btn" class="nav-drop-menu-title easy-transition">חפש רכב</a>
                         <ul id="" class="nav-drop-menu easy-transition">
@@ -53,12 +53,12 @@
                             <a href="#"><li id="" class="nav-drop-menu-elem">חיפוש מתקדם</li></a>
                         </ul>
                     </div>
-                    <a href="#" id="nav-about-Btn" class="nav-btn easy-transition">אודות</a>
-                    <a href="#" id="nav-contact-Btn" class="nav-btn easy-transition">צור קשר</a>
-                    <a href="#" id="nav-regulation-Btn" class="nav-btn easy-transition">תקנון</a>
+                    <a href="about.html" id="nav-about-Btn" class="nav-btn easy-transition">אודות</a>
+                    <a href="contact.html" id="nav-contact-Btn" class="nav-btn easy-transition">צור קשר</a>
+                    <a href="regulation.html" id="nav-regulation-Btn" class="nav-btn easy-transition">תקנון</a>
                 </nav>
-            </div><!--/ END: bottom-head /-->
-        </header><!--/ END: page-main /-->
+            </div><!--/ END: header /-->
+        </header>
         <main class="page-wrapper page-main" data-display="flex" data-flex-direction="column">
             <div id="" class="intro-img img-center-align"></div>
             <button class="main-btn easy-transition search-car-btn">מצא את הרכב הבא שלך</button>
@@ -119,7 +119,7 @@
                         <div class="foot-info-widget" data-display="flex" data-flex-direction="column" data-align-items="start" data-justify-content="space-between">
                             <p class="foot-info-address">רח' דיזינגוף 52, ת"א</p>
                             <p class="foot-info-phone">03-1111111</p>
-                            <p class="foot-info-email">office@the-agency.co.il</p>
+                            <a href="mailto:office@the-agency.co.il">office@the-agency.co.il</a>
                             <p class="foot-info-activety">ימים א-ה 08:00 עד 18:00</p>
                         </div>
                     </div>

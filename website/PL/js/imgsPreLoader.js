@@ -1,8 +1,10 @@
 //---/ GLOBE
+var theGangSitePreloaderFlag = {'isCached': true}; //---/ flags if site is in browser cash (no need to preload twice)
 
 //---/ Aid funcs
 function preloadImages(i_Array) {
-    if (!preloadImages.list) preloadImages.list = [];
+    if (JSON.parse(localStorage.getItem('theGangSitePreloaderFlag')) != null && JSON.parse(localStorage.getItem('theGangSitePreloaderFlag')).isCached) return;
+    else if (!preloadImages.list) preloadImages.list = [];
 
     var list = preloadImages.list;
     $.each(i_Array.length, function (i, url) {
@@ -14,6 +16,8 @@ function preloadImages(i_Array) {
         list.push(img);
         img.src = url;
     });
+
+    localStorage.setItem('theGangSitePreloaderFlag', JSON.stringify(theGangSitePreloaderFlag));
 }
 
 //----/ HENDLER /----/
