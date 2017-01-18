@@ -97,7 +97,7 @@ footer p {
 
 /*----/ IMAGES /----*/
 .img-center-align {
-    background-position: center;
+    background-position: top center;
     background-repeat: no-repeat;
     background-size: contain;
 }

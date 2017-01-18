@@ -1,8 +1,10 @@
-@media only screen and (max-width: 1280px) {
+@media only screen and (min-width: 0px) and (max-width: 1280px) {
     
 }
-@media only screen and (max-width: 1080px) {	
-	.page-wrapper { max-width: 768px; }
+@media only screen and (min-width: 0px) and (max-width: 1080px) {
+    .page-wrapper { max-width: 768px; }
+
+    #home-page .intro-img { min-height: 350px; }
 }
 @media only screen and (min-width: 0px ) and (max-width: 768px) {
 	header > .top-head > aside, header > .bottom-head, .top-foot > .social-btns-holder, .footer-widgets-holder, .foot-widget-elem, .foot-widget-elem > * {
@@ -31,8 +33,11 @@
     .quick-contact-form-widget > button { 
         width: 25%;
         margin: 25px auto; 
-    } 
+    }
+    
+    #home-page .intro-img { min-height: 250px; }
 }
 @media only screen and (max-width: 420px) {
 	 
+    #home-page .intro-img { min-height: 130px; }
 } 
