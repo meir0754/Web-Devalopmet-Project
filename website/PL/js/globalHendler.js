@@ -2,8 +2,12 @@
 var theGangSiteHomePageAnimationFlag = {'hasVisited': true}; //---/ flags if site is in browser cash (no need to preload twice)
 
 //---/ Aid funcs
-function iteratePages(i_ClassToAdd) {
-     
+function throwPhaseOutput(i_phase, i_type, i_msg){ 
+    (i_type === 'error') ? $(i_phase + ' .output-message').addClass('error-message').text(i_msg) : $(i_phase + ' .output-message').text(i_msg) 
+}
+
+function matchFeilds(i_field_1, i_field_2) { 
+    return (i_field_1 === i_field_2) ? true : false; 
 }
 
 function setPageGlobalScripts() {
@@ -16,7 +20,7 @@ function setPageGlobalScripts() {
     } 
 
     var _path = window.location.pathname,
-        _scriptSrcsList = ['js/navigationHelper.js', 'js/callerHelper.js', 'js/easyScroll.js', 'js/navMenuHelper.js', 'js/pace.js', 'js/hamburgerBtnHendler.js'];
+        _scriptSrcsList = ['js/AIDLib.js','js/navigationHelper.js', 'js/phoneCallerHelper.js', 'js/easyScroll.js', 'js/navMenuHelper.js', 'js/pace.js', 'js/hamburgerBtnHendler.js'];
 
     $.each(_scriptSrcsList, function (key, scriptSrc) {
         //---/ will load the animation only for the first time user enters the site and only for the home page - else will set session storage as true for next round
@@ -52,7 +56,7 @@ $(function () {
 
     //---/ Listeners
     $('.quick-nav-btn').click(function () { initNav(); });
-    $('.quick-call-btn').click(function () { initCall(); });
+    $('.quick-call-btn').click(function () { initPhoneCall(); });
 
     $('.logo-img').click(function () { window.location.href = 'index.html'; });
 });

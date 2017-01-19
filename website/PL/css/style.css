@@ -62,38 +62,41 @@ pre {
     font-weight: 400;
 }
 
-footer p {
-    color: white;
-}
-
 .foot-info-widget > p {
     margin: 7px 0;
     font-weight: 400;
 }
 
 ::-webkit-input-placeholder {
-    color: white;
     font-family: 'Open Sans Hebrew', 'openSans-Light', 'Rubik', sans-serif;
     font-size: 12px;
 }
 
 :-moz-placeholder { /* Firefox 18- */
-    color: white;
     font-family: 'Open Sans Hebrew', 'openSans-Light', 'Rubik', sans-serif;
     font-size: 12px;
 }
 
 ::-moz-placeholder { /* Firefox 19+ */
-    color: white;
     font-family: 'Open Sans Hebrew', 'openSans-Light', 'Rubik', sans-serif;
     font-size: 12px;
 }
 
 :-ms-input-placeholder {
-    color: white;
     font-family: 'Open Sans Hebrew', 'openSans-Light', 'Rubik', sans-serif;
     font-size: 12px;
 }
+
+::-webkit-input-placeholder { color: black; }
+:-moz-placeholder { color: black; }
+::-moz-placeholder { color: black; }
+:-ms-input-placeholder { color: black; }
+
+footer ::-webkit-input-placeholder { color: white; }
+footer :-moz-placeholder { color: white; }
+footer ::-moz-placeholder { color: white; }
+footer :-ms-input-placeholder { color: white; }
+footer p { color: white; }
 
 /*----/ IMAGES /----*/
 .img-center-align {
@@ -445,3 +448,60 @@ button {
 }
 
 .mobile-nav-holder { display: none; }
+
+main .form-container {
+    width: 100%;
+}
+
+main .form-wrapper {
+    width: 100%;
+    max-width: 780px;
+    margin: 0 auto;
+}
+
+main .form-vertical-container {
+    width: 100%;
+}
+
+main .form-input-holder {
+    width: 50%;
+    max-width: 370px;
+    margin: 5px 0;
+}
+
+select { cursor: pointer; }
+
+main input, main select {
+    height: 40px;
+    margin: 5px 0;
+}
+
+main .form-input-holder input, main .form-input-holder select, main textarea {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+main .form-input-holder input, main textarea {
+    padding: 0 5px;
+}
+
+main textarea { 
+    resize: none;
+    height: 350px; 
+}
+
+main .inner-title {
+    width: 100%;
+    text-align: center;
+}
+
+main .output-message {
+    width: 100%;
+    max-width: 270px;
+    min-width: 220px;
+    height: 60px;
+    line-height: 60px;
+    font-size: 14px;
+    font-weight: 400;
+    text-align: center;
+}

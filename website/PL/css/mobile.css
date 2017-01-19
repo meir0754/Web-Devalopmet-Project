@@ -4,6 +4,12 @@
 @media only screen and (min-width: 0px) and (max-width: 1080px) {
     .page-wrapper { max-width: 768px; }
 
+    main .form-input-holder {
+        width: 50%;
+        max-width: 340px;
+        margin: 5px 0;
+    }
+
     #home-page .intro-img { min-height: 350px; }
 }
 @media only screen and (min-width: 0px ) and (max-width: 768px) {
@@ -45,7 +51,7 @@
         margin: 25px 0 !important; 
     }
 
-    .quick-contact-form-widget > button { 
+    .quick-contact-form-widget > .form-submit-btn { 
         width: 25%;
         margin: 25px auto; 
     }
@@ -90,6 +96,17 @@
         border-bottom: none;
         background-color: #3f6c9c;
         opacity: 1;
+    }
+
+    main .form-input-holder {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    main button.form-submit-btn {
+        width: 100%;
+        padding: 15px 0;
+        font-size: 16px;
     }
 
     #home-page .intro-img { min-height: 250px; }
