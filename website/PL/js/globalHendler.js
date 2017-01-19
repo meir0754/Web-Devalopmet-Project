@@ -16,7 +16,7 @@ function setPageGlobalScripts() {
     } 
 
     var _path = window.location.pathname,
-        _scriptSrcsList = ['js/navigationHelper.js', 'js/callerHelper.js', 'js/easyScroll.js', 'js/navMenuHelper.js', 'js/pace.js'];
+        _scriptSrcsList = ['js/navigationHelper.js', 'js/callerHelper.js', 'js/easyScroll.js', 'js/navMenuHelper.js', 'js/pace.js', 'js/hamburgerBtnHendler.js'];
 
     $.each(_scriptSrcsList, function (key, scriptSrc) {
         //---/ will load the animation only for the first time user enters the site and only for the home page - else will set session storage as true for next round
@@ -49,7 +49,7 @@ setPageGlobalScripts();
 $(function () {
     //---/ Globe
     setNavBtnsAttr();
-    
+
     //---/ Listeners
     $('.quick-nav-btn').click(function () { initNav(); });
     $('.quick-call-btn').click(function () { initCall(); });
