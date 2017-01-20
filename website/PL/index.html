@@ -41,6 +41,11 @@
                     <button class="quick-btn quick-nav-btn btn-img-align">נווט</button>
                 </aside>
             </div><!--/ END: top-head /-->
+            <button class="mobile-menu-btn page-wrapper hamburger hamburger--squeeze" type="button">
+                <span class="hamburger-box">
+                    <span class="hamburger-inner"></span>
+                </span>
+            </button>
             <div class="bottom-head page-wrapper" data-display="flex" data-justify-content="end">
                 <nav class="head-nav" data-display="flex" data-justify-content="end">
                     <a href="index.html" id="nav-home-Btn" class="nav-btn easy-transition">בית</a>
@@ -57,11 +62,28 @@
                     <a href="contact.html" id="nav-contact-Btn" class="nav-btn easy-transition">צור קשר</a>
                     <a href="regulation.html" id="nav-regulation-Btn" class="nav-btn easy-transition">תקנון</a>
                 </nav>
+                <div class="mobile-nav-holder">
+                    <nav class="mobile-nav" data-display="flex" data-flex-direction="column">
+                        <a href="index.html" id="nav-home-Btn" class="nav-btn easy-transition">בית</a>
+                        <div id="" class="nav-drop-menu-holder easy-transition nav-btn" data-display="flex" data-align-items="start">
+                            <a href="#" id="nav-search-Btn" class="nav-drop-menu-title easy-transition">חפש רכב</a>
+                            <ul id="" class="nav-drop-menu easy-transition">
+                                <a href="#"><li id="" class="nav-drop-menu-elem">יד שניה</li></a>
+                                <a href="#"><li id="" class="nav-drop-menu-elem">רכבים חדשים</li></a>
+                                <a href="#"><li id="" class="nav-drop-menu-elem">מבצעים</li></a>
+                                <a href="#"><li id="" class="nav-drop-menu-elem">חיפוש מתקדם</li></a>
+                            </ul>
+                        </div>
+                        <a href="about.html" id="nav-about-Btn" class="nav-btn easy-transition">אודות</a>
+                        <a href="contact.html" id="nav-contact-Btn" class="nav-btn easy-transition">צור קשר</a>
+                        <a href="regulation.html" id="nav-regulation-Btn" class="nav-btn easy-transition">תקנון</a>
+                    </nav>
+                </div>
             </div><!--/ END: header /-->
         </header>
         <main class="page-wrapper page-main" data-display="flex" data-flex-direction="column">
             <div id="" class="intro-img img-center-align"></div>
-            <button class="main-btn easy-transition search-car-btn">מצא את הרכב הבא שלך</button>
+            <button class="main-btn redirect-btn easy-transition search-car-btn" value="search">מצא את הרכב הבא שלך</button>
             <div id="" class="thumbnail-container" data-display="flex">
                 <div id="" class="thumbnail-holder used-cars-thumb easy-transition" data-display="flex" data-flex-direction="column">
                     <div id="" class="thumbnail-img img-center-align"></div>

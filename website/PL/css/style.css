@@ -62,42 +62,45 @@ pre {
     font-weight: 400;
 }
 
-footer p {
-    color: white;
-}
-
 .foot-info-widget > p {
     margin: 7px 0;
     font-weight: 400;
 }
 
 ::-webkit-input-placeholder {
-    color: white;
     font-family: 'Open Sans Hebrew', 'openSans-Light', 'Rubik', sans-serif;
     font-size: 12px;
 }
 
 :-moz-placeholder { /* Firefox 18- */
-    color: white;
     font-family: 'Open Sans Hebrew', 'openSans-Light', 'Rubik', sans-serif;
     font-size: 12px;
 }
 
 ::-moz-placeholder { /* Firefox 19+ */
-    color: white;
     font-family: 'Open Sans Hebrew', 'openSans-Light', 'Rubik', sans-serif;
     font-size: 12px;
 }
 
 :-ms-input-placeholder {
-    color: white;
     font-family: 'Open Sans Hebrew', 'openSans-Light', 'Rubik', sans-serif;
     font-size: 12px;
 }
 
+::-webkit-input-placeholder { color: black; }
+:-moz-placeholder { color: black; }
+::-moz-placeholder { color: black; }
+:-ms-input-placeholder { color: black; }
+
+footer ::-webkit-input-placeholder { color: white; }
+footer :-moz-placeholder { color: white; }
+footer ::-moz-placeholder { color: white; }
+footer :-ms-input-placeholder { color: white; }
+footer p { color: white; }
+
 /*----/ IMAGES /----*/
 .img-center-align {
-    background-position: center;
+    background-position: top center;
     background-repeat: no-repeat;
     background-size: contain;
 }
@@ -241,9 +244,82 @@ button {
     background-color: #4f88c4;
 }
 
-    .form-submit-btn:hover {
-        background-color: #3f6c9c;
-    }
+    .form-submit-btn:hover { background-color: #3f6c9c; }
+
+.hamburger {
+    padding: 15px 15px;
+    display: inline-block;
+    cursor: pointer;
+    transition-property: opacity, filter;
+    transition-duration: 0.15s;
+    transition-timing-function: linear;
+    font: inherit;
+    color: inherit;
+    text-transform: none;
+    background-color: transparent;
+    border: 0;
+    margin: 0;
+    overflow: visible; 
+}
+
+.hamburger-box {
+    width: 40px;
+    height: 24px;
+    display: inline-block;
+    position: relative; 
+}
+
+.hamburger-inner {
+    display: block;
+    top: 50%;
+}
+
+.hamburger-inner, .hamburger-inner::before, .hamburger-inner::after {
+    width: 40px;
+    height: 4px;
+    background-color: white;
+    border-radius: 4px;
+    position: absolute;
+    transition-property: transform;
+    transition-duration: 0.15s;
+    transition-timing-function: ease; 
+}
+  
+.hamburger-inner::before, .hamburger-inner::after {
+    content: "";
+    display: block; 
+}
+
+.hamburger-inner::before { top: -10px; }
+.hamburger-inner::after { bottom: -10px; }
+
+.hamburger--squeeze .hamburger-inner {
+    transition-duration: 0.1s;
+    transition-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19); 
+}
+  
+.hamburger--squeeze .hamburger-inner::before { transition: top 0.1s 0.14s ease, opacity 0.1s ease; }
+.hamburger--squeeze .hamburger-inner::after { transition: bottom 0.1s 0.14s ease, transform 0.1s cubic-bezier(0.55, 0.055, 0.675, 0.19); }
+
+.hamburger--squeeze.is-active .hamburger-inner {
+    transform: rotate(45deg);
+    transition-delay: 0.14s;
+    transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1); 
+}
+
+.hamburger--squeeze.is-active .hamburger-inner::before {
+    top: 0;
+    opacity: 0;
+    transition: top 0.1s ease, opacity 0.1s 0.14s ease; 
+}
+  
+.hamburger--squeeze.is-active .hamburger-inner::after {
+    bottom: 0;
+    transform: rotate(-90deg);
+    transition: bottom 0.1s ease, transform 0.1s 0.14s cubic-bezier(0.215, 0.61, 0.355, 1); 
+}
+
+.mobile-menu-btn { display: none; }
 
 /*----/ DIVISIONS & ELEMENTS /----*/
 .page-header {
@@ -285,11 +361,6 @@ button {
 
 .top-head, .bottom-head {
     width: 100%;
-}
-
-
-
-.logo-holder { 
 }
 
 .head-nav {
@@ -373,5 +444,64 @@ button {
 .map-title {
     width: 100%;
     color: #252c39;
+    text-align: center;
+}
+
+.mobile-nav-holder { display: none; }
+
+main .form-container {
+    width: 100%;
+}
+
+main .form-wrapper {
+    width: 100%;
+    max-width: 780px;
+    margin: 0 auto;
+}
+
+main .form-vertical-container {
+    width: 100%;
+}
+
+main .form-input-holder {
+    width: 50%;
+    max-width: 370px;
+    margin: 5px 0;
+}
+
+select { cursor: pointer; }
+
+main input, main select {
+    height: 40px;
+    margin: 5px 0;
+}
+
+main .form-input-holder input, main .form-input-holder select, main textarea {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+main .form-input-holder input, main textarea {
+    padding: 0 5px;
+}
+
+main textarea { 
+    resize: none;
+    height: 350px; 
+}
+
+main .inner-title {
+    width: 100%;
+    text-align: center;
+}
+
+main .output-message {
+    width: 100%;
+    max-width: 270px;
+    min-width: 220px;
+    height: 60px;
+    line-height: 60px;
+    font-size: 14px;
+    font-weight: 400;
     text-align: center;
 }

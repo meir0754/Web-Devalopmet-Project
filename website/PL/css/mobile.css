@@ -1,11 +1,19 @@
-@media only screen and (max-width: 1280px) {
+@media only screen and (min-width: 0px) and (max-width: 1280px) {
     
 }
-@media only screen and (max-width: 1080px) {	
-	.page-wrapper { max-width: 768px; }
+@media only screen and (min-width: 0px) and (max-width: 1080px) {
+    .page-wrapper { max-width: 768px; }
+
+    main .form-input-holder {
+        width: 50%;
+        max-width: 340px;
+        margin: 5px 0;
+    }
+
+    #home-page .intro-img { min-height: 350px; }
 }
 @media only screen and (min-width: 0px ) and (max-width: 768px) {
-	header > .top-head > aside, header > .bottom-head, .top-foot > .social-btns-holder, .footer-widgets-holder, .foot-widget-elem, .foot-widget-elem > * {
+	header > .top-head > aside, .top-foot > .social-btns-holder, .footer-widgets-holder, .foot-widget-elem, .foot-widget-elem > * {
         justify-content: center !important;
         -webkit-justify-content: center !important;
         -webkit-box-flex: center !important;
@@ -16,23 +24,94 @@
         -ms-flex-pack: center !important;
     }
 
+    .mobile-menu-btn { 
+        display: block;
+        height: 50px;
+        width: 93%;
+        background-color: #3f6c9c;
+        padding: 0;
+        margin-bottom: 25px;
+    }
+
+    .bottom-head { display: block !important; }
+
     header > .top-head { height: 150px; }
     header > .top-head > aside { width: 100%; }
 
+    nav.head-nav { display: none !important; }
+    nav.mobile-nav { width: 90%; margin: 0 auto; }
     .foot-widget-elem a { width: 100%; }
     .top-foot { min-height: 140px; }
     .top-foot > .social-btns-holder { width: 100%; }
     .top-foot > button { margin: 0 auto; }
     .foot-widget-elem > * { text-align: center; }
+    
     .foot-widget-elem { 
         width: 100%;
         margin: 25px 0 !important; 
     }
-    .quick-contact-form-widget > button { 
+
+    .quick-contact-form-widget > .form-submit-btn { 
         width: 25%;
         margin: 25px auto; 
-    } 
+    }
+    
+    nav.mobile-nav a { 
+        color: white; 
+        width: 100%;
+    }
+
+    .nav-drop-menu-holder > a {
+        line-height: 30px;
+        height: auto;
+        padding: 10px;
+    }
+
+    nav.mobile-nav > * {
+        width: 100%;
+        text-align: right;
+        padding: 10px;
+        height: auto;
+        line-height: 30px;
+        background-color: #2d2e34;
+    }
+
+    .nav-drop-menu {
+        position: relative;
+        background-color: #393a42;
+        width: 100%;
+        height: auto;
+        padding: 0 10px;
+        margin: 0;
+        display: block;
+    }
+
+    .nav-drop-menu li {
+        padding: 10px;
+        border: none;
+        margin-right: -10px;
+    }
+
+    .nav-drop-menu li:hover, .mobile-nav a:hover {
+        border-bottom: none;
+        background-color: #3f6c9c;
+        opacity: 1;
+    }
+
+    main .form-input-holder {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    main button.form-submit-btn {
+        width: 100%;
+        padding: 15px 0;
+        font-size: 16px;
+    }
+
+    #home-page .intro-img { min-height: 250px; }
 }
 @media only screen and (max-width: 420px) {
 	 
+    #home-page .intro-img { min-height: 130px; }
 } 
