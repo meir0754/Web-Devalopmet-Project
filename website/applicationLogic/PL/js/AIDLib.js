@@ -1,3 +1,6 @@
+//----/ GLOBE
+var AIDLib = AIDLib || {};
+
 //----/ AID FUNCS
 function toggleLoadAnimation(i_obj) { //---/ make sure css is hooked aswell!
 	if (i_obj.length != undefined) {
@@ -53,6 +56,5 @@ AIDLib.Caller = (function(){
 	return Caller;
 })();
 
-//----/ GLOBE
-var AIDLib = AIDLib || {},
-	myCaller = new AIDLib.Caller('');
+//----/ HANDLER
+var myCaller = new AIDLib.Caller('');
