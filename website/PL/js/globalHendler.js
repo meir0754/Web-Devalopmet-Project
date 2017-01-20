@@ -57,6 +57,30 @@ $(function () {
     //---/ Listeners
     $('.quick-nav-btn').click(function () { initNav(); });
     $('.quick-call-btn').click(function () { initPhoneCall(); });
+    $('.logo-img').click(function () { window.open('index.html','_self'); });
+    $('.logo-img-inverted').click(function () { window.open('index.html','_self'); });
+    $('.redirect-btn').click(function(){ 
+        if ($(this).val().length <= 0) return;
+        else window.open($(this).val() + '.html' , '_self'); 
+    });
 
-    $('.logo-img').click(function () { window.location.href = 'index.html'; });
+    $('form').submit(function(e){
+        e.preventDefault();
+        
+        var o_Requset = {
+                "method": "InsertNewApply",
+                "params": {
+                    "fullName": $('input[name="full_name"]').val(),
+                    "phone": $('input[name="phone_number"]').val(),
+                    "mail": $('input[name="email"]').val(),
+                    "subject": $('select[name="subject"]').val(),
+                    "message": $('textarea[name="message"]').val()
+                },
+                "returntype": "json"
+            };
+        
+        myCaller.sendCustomerApply(o_Requset, 'output-message', true, function(i_response){
+            console.log(i_response);
+        });
+    });
 });
