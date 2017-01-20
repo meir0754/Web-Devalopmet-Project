@@ -8,8 +8,8 @@ include "DataBaseManager.php"; //---/ include the manager class
 // =======================================================================
 	// allowed requstes here (method names as array)
 	$allowedRequsets = array(
-						"AuthenticateUser",
-						"GetPropertiesForSaleList"
+						"InsertNewApply",
+						"SendMail"
 						);    
 // =======================================================================
 

@@ -4,5 +4,5 @@ ob_start();
 define("dbHost", "sql111.byethost31.com");
 define("dbUser", "b31_19455527");
 define("dbPass", "mBeir075T4");
-define("dbName", "__________"); //---/ INSERT TABLE NAME HERE!!
+define("dbName", "b31_19455527_CarAgency"); 
 ?>

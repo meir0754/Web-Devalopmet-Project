@@ -29,31 +29,83 @@ class DBServlet {
 	//--------------/ EXAMPLE METHOD (REMOVE AFTER YOU UNDERSTAND HOW IT WORKS AND START WORKING ON YOUR OWN CODE) /-------------------//
 	//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
 	
-	public function IsValidUser($i_User){ 
-		$v_Response = new Response();
+	// public function IsValidUser($i_User){ 
+	// 	$v_Response = new Response();
 		
-		try {
-			$this->initConnection(); //---/ this line calls to a private method to connect the database (listed below)
+	// 	try {
+	// 		$this->initConnection(); //---/ this line calls to a private method to connect the database (listed below)
 			
-			$query = $this->connection->prepare("SELECT * FROM RegisterdUsersList WHERE UserName='" . $i_User->GetName() . "' AND UserPass='" . $i_User->GetPassword() . "' LIMIT 1"); //---/ pdo example usage to select relevant data from table
-			$query->execute(); //---/ pdo execution statement for the line above
-			$row = $query->fetch(); //---/ pdo retrive last executed data statement into 'row' element 
+	// 		$query = $this->connection->prepare("SELECT * FROM RegisterdUsersList WHERE UserName='" . $i_User->GetName() . "' AND UserPass='" . $i_User->GetPassword() . "' LIMIT 1"); //---/ pdo example usage to select relevant data from table
+	// 		$query->execute(); //---/ pdo execution statement for the line above
+	// 		$row = $query->fetch(); //---/ pdo retrive last executed data statement into 'row' element 
 			
-			if ($row) { //---/ check if data was retrived
-				//----/ do stuff here and get some response into an element...
+	// 		if ($row) { //---/ check if data was retrived
+	// 			//----/ do stuff here and get some response into an element...
 				
-				$this->setConnectionStat(true); //---/ this line keeps connection to database open and flags if there is a cross request (only on request at a time is allowed)
-				$v_Response->SetMsg(/*--/ element(str / obj / int / etc) /--*/); //---/ this line stores the resault 
-				$v_Response->SetFlag(true); //---/ this line sets the response as a valid response (just like saying 'ok')
-			}
-		} catch (PDOException $e) { //---/ catchs pdo default exceptions (no need for custom messages here - use only default!)
-			$this->setConnectionStat(false); //---/ this line closes the connection
-			$v_Response->SetMsg($e); //---/ this line stores the exception message
-			$v_Response->SetFlag(false); //---/ this line sets the response as an invalid response
-		}
+	// 			$this->setConnectionStat(true); //---/ this line keeps connection to database open and flags if there is a cross request (only on request at a time is allowed)
+	// 			$v_Response->SetMsg(/*--/ element(str / obj / int / etc) /--*/); //---/ this line stores the resault 
+	// 			$v_Response->SetFlag(true); //---/ this line sets the response as a valid response (just like saying 'ok')
+	// 		}
+	// 	} catch (PDOException $e) { //---/ catchs pdo default exceptions (no need for custom messages here - use only default!)
+	// 		$this->setConnectionStat(false); //---/ this line closes the connection
+	// 		$v_Response->SetMsg($e); //---/ this line stores the exception message
+	// 		$v_Response->SetFlag(false); //---/ this line sets the response as an invalid response
+	// 	}
 		
-		return $v_Response; //---/ return the response object
+	// 	return $v_Response; //---/ return the response object
+	// }
+
+	public function InsertCustomerApplyInput($i_CostumerApply){
+	
+	$v_Response = new Response();
+	
+	try {
+		$this->initConnection();
+
+		$query = $this->connection->prepare("INSERT INTO CustomerSupport(Full_Name, Phone, Mail, Date, Subject, Message) VALUES(:fullName, :phone, :mail, :date, :subject, :msg)"); //---/ pdo example usage to select relevant data from table
+		$v_res = $query->execute(array(':fullName' => $i_CostumerApply->fullName, ':phone' => $i_CostumerApply->phone, ':mail' => $i_CostumerApply->mail, ':date' => $i_CostumerApply->date, ':subject' => $i_CostumerApply->subject, ':msg' => $i_CostumerApply->message));	
+
+		if ($v_res) {
+
+			$v_Response->SetMsg($v_res);
+			$v_Response->SetFlag(true);
+			$v_Response->SendToEmail($i_To, $i_Subject, $i_Msg)
+		}
+	} catch(PDOException $e) {
+		$this->setConnectionStat(false); 
+		$v_Response->SetMsg($e); 
+		$v_Response->SetFlag(false); 
 	}
+
+	return $v_response;
+}
+
+
+// 	public function FetchCarsDetailsFromTable($i_Type){
+	
+// 	$v_response = new Response();
+	
+// 	try {
+// 		$this->initConnection();
+// 	// 		$query = $this->connection->prepare("SELECT * FROM RegisterdUsersList WHERE UserName='" . $i_User->GetName() . "' AND UserPass='" . $i_User->GetPassword() . "' LIMIT 1"); //---/ pdo example usage to select relevant data from table
+
+// 		$query = $this->connection->prepare("SELECT * FROM Cars WHERE Full_Name = '" . $i_Type . "' OR phone = '". $i_Type . "' OR //---/ pdo example usage to select relevant data from table
+// 		$v_res = $query->execute(array(':fullName' => $i_CostumerApply->fullName, ':phone' => $i_CostumerApply->phone, ':mail' => $i_CostumerApply->mail, ':date' => $i_CostumerApply->date, ':subject' => $i_CostumerApply->subject, ':msg' => $i_CostumerApply->message));
+	
+// 		if ($v_res) {
+// 			$v_response->SetMsg($v_res);
+// 			v_Response->SetFlag(true);			
+// 		}
+// 	} catch(PDOException $e) {
+// 		$this->setConnectionStat(false); 
+// 		$v_Response->SetMsg($e); 
+// 		$v_Response->SetFlag(false); 
+// 	}
+
+// 	return $v_response;
+// }
+
+
 	
 	/*----/ Getters & Setters */
 	public function IsConected(){ //----/ THIS IS A MUST - DONT MODIFY
@@ -65,6 +117,11 @@ class DBServlet {
 	}
 	
 	/*----/ AID Funcs */
+
+	// private function getSearchRange($i_StartRange, $i_EndRange){
+		// TODO
+	// }
+
 	private function initConnection() { //----/ THIS IS A MUST - DONT MODIFY
 		try {
 			$this->connection = new PDO("mysql:host=".$this->m_DbHost.";dbname=".$this->m_DbName, $this->m_DbUserName, $this->m_DbPassword);
