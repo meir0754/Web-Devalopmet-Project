@@ -14,9 +14,10 @@ class DBManager {
 	private $m_User;
 	private $m_RegisterdUser;
 	
-	private $m_MailTo = "somebody@example.com";
-	private $m_Subject = "New Customer Apply";
-	private $m_Msg = "";
+	private $m_MailTo = "yakir529@gmail.com"; // change to: somebody@example.vom
+	private $m_Subject = "התקבלה פניה חדשה מהאתר";
+	private $m_ValidMsgToEmail = "נרשמה פניה חדשה במאגר. אנא בצע טיפול בהקדם.";
+	private $m_InvalidMsgToEmail = "קרתה שגיאה במהלך קבלת פניה חדשה! אנא פנה למנהל המערכת בהקדם!";
 
 	
 	/*----/ CTOR */
@@ -27,39 +28,31 @@ class DBManager {
 	
 	/*----/ Methodes */
 	//---/ USE PUBLIC METHODS HERE
-	// public function AuthenticateUser($i_UserParams){ //---/ EXAMPLE USAGE FOR METHOD (REMOVE IT ONCE YOU UNDERSTAND HOE IT WORKS)
-	// 	$this->m_User = new User($i_UserParams->UserName, $i_UserParams->UserPassword, $i_UserParams->UserRemember); //---/ this line creates a user
+	public function InsertNewApply($i_UserApplyParams) {
+		$v_Response = $this->m_DbServlet->InsertCustomerApplyInput($i_UserApplyParams);
 		
-	// 	$v_Response = $this->m_DbServlet->IsValidUser($this->m_User); //---/ this line checks if user is registerd and returns a response 
-		
-	// 	if ($v_Response->GetFlag() == true) { //---/ if response is valid (checks if every thing went 'ok')
-	// 		$this->m_RegisterdUser = $this->GrantAccessToUser($this->m_User, $v_Response->GetMsg()); //---/ creates a registerd user
-			
-	// 		return $this->m_RegisterdUser->GetDetails(); //---/ returns relevant registerd user details for the usage of the admin panel
-	// 	} else {
-	// 		return $v_Response->GetMsg(); //---/ returns the stored error message
-	// 	}
-	// }
+		if ($v_Response->GetFlag()) {
+			$v_MailResponse = $this->SendMail($i_UserApplyParams);
+			if (!$v_MailResponse) $v_Res = $v_MailResponse;
+			else $v_Res = $v_Response->GetMsg();
+		} else $v_Res = $v_Response->GetMsg();
 
-	public function InsertNewApply($i_UserParams) {
-		return $this->m_DbServlet->InsertCustomerApplyInput($i_UserParams);
+		return $v_Res;
 	}
 
 	public function SendMail($i_UserApplyParams) {
-		$this->m_Msg = "name: " . $i_UserApplyParams->fullName;
-		$this->m_Msg .= "phone: " . $i_UserApplyParams->phone;
-		$this->m_Msg .= "mail: " . $i_UserApplyParams->mail;
-		$this->m_Msg .= "date: " . $i_UserApplyParams->date;
-		$this->m_Msg .= "subject: " . $i_UserApplyParams->subject;
-		$this->m_Msg .= "message: " . $i_UserApplyParams->message;
+		$v_CurrMsg = "name: " . $i_UserApplyParams->fullName;
+		$v_CurrMsg .= "phone: " . $i_UserApplyParams->phone;
+		$v_CurrMsg .= "mail: " . $i_UserApplyParams->mail;
+		$v_CurrMsg .= "date: " . $this->m_DbServlet->GetCurrentTime();
+		$v_CurrMsg .= "subject: " . $i_UserApplyParams->subject;
+		$v_CurrMsg .= "message: " . $i_UserApplyParams->message;
 		
-		return $this->m_Response->SendEmail($m_MailTo, $m_Subject, $m_Msg);
+		return $this->m_Response->SendToEmail($this->m_MailTo, $this->m_Subject, $v_CurrMsg);
 	}
 	
-	// /*----/ Getters & Setters */
-	// public function GetPropertiesForSaleList($i_Params){ //---/ EXAMPLE USAGE FOR GETTER
-	// 	return $this->m_DbServlet->GetPropForSaleList($i_Params); //---/ returns the direct resault retrived from the servlet
-	// }
+	// /*----/ Getters & Setters */	
+
 	
 	/*----/ AID Funcs */
 	//---/ USE PRIVATE FUNCS HERE IF NEEDED

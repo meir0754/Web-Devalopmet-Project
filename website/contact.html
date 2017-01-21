@@ -15,6 +15,7 @@
     <!--/ StyleSheets /-->
     <link type="text/css" rel="stylesheet" href="css/style.css">
     <link type="text/css" rel="stylesheet" href="css/mobile.css">
+    <link type="text/css" rel="stylesheet" href="css/dataTransferAnimation.css">
 
     <!--/ Extentions /-->
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
@@ -107,7 +108,7 @@
                     </div>
                     <div class="form-input-holder easy-transition">
                         <input type="email" class="contact-form-input" name="email" placeholder="* כתובת מייל" required>
-                        <select class="contact-form-input easy-transition">
+                        <select class="contact-form-input easy-transition" name="subject">
                             <option value="נושא הפניה" selected disabled>-- נושא הפניה --</option>
                             <option value="second_hand">רכב יד שניה</option>
                             <option value="new">רכב חדש</option>
@@ -120,7 +121,7 @@
                     <textarea type="text" class="contact-form-message" name="message" placeholder="תוכן ההודעה"></textarea>
                 </div>
                 <button type="submit" class="main-btn form-submit-btn easy-transition" value="submit">שלח</button>
-                <div class="output-message"></div>
+                <div class="output-message easy-transition"></div>
             </form>
         </div>
         

@@ -6,8 +6,7 @@
 
 .loader {
     display: block;
-    margin: 20px;
-    font-size: 10px;
+    font-size: 3px;
     position: relative;
     text-indent: -9999em;
     border-top: 1px solid rgba(255, 255, 255, 0.2);

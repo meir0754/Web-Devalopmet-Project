@@ -31,20 +31,20 @@ AIDLib.Caller = (function(){
 	}
 
 	//---/ Methods
-	Caller.makeCall = function(i_objToSend, i_animationParentSelector, i_toAnimateLoader, o_callback) {
+	Caller.prototype.makeCall = function(i_objToSend, i_animationParentSelector, i_toAnimateLoader, o_callback) {
 		if (i_toAnimateLoader) toggleLoadAnimation(i_animationParentSelector);
 		
-		$.post(this.m_path, JSON.stringify(i_objToSend), function(i_response){
-			this.m_response = i_response;
+		$.post(this.m_pathToCall, JSON.stringify(i_objToSend), function(i_response){
 			this.m_validResponse = true;
-
-			if (i_response.indexOf('[{') >= 0) v_res = JSON.parse(i_response);
-			if (i_toAnimateLoader) toggleLoadAnimation(i_animationParentSelector);
+			this.m_response = JSON.parse(i_response);
 		}).fail(function (jqXHR, textStatus, errorThrown) {
-            this.m_response = jqXHR.responseText;
 			this.m_validResponse = false;
+            this.m_response = jqXHR.responseText;
 			console.error(this.m_response);
-        }).always(o_callback(this.m_response));
+		}).always(function(){
+			if (i_toAnimateLoader) toggleLoadAnimation(i_animationParentSelector);
+			if (typeof o_callback === 'function' && o_callback != 'undefined')  o_callback(this.m_response);
+		});
 	}
 
 	Caller.prototype.sendCustomerApply = function(i_customerApply, i_responseBox, i_toAnimateLoader, o_callback) {
@@ -57,4 +57,4 @@ AIDLib.Caller = (function(){
 })();
 
 //----/ HANDLER
-var myCaller = new AIDLib.Caller('');
+var myCaller = new AIDLib.Caller('applicationLogic/BL/databaseController.php');

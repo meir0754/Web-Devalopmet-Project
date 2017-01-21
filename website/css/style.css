@@ -495,13 +495,13 @@ main .inner-title {
     text-align: center;
 }
 
-main .output-message {
-    width: 100%;
-    max-width: 270px;
-    min-width: 220px;
+.output-message {
     height: 60px;
     line-height: 60px;
     font-size: 14px;
     font-weight: 400;
     text-align: center;
+    color: blue;
 }
+
+.error-message { color: red; }

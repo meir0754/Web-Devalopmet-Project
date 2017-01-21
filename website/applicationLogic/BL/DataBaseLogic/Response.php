@@ -35,9 +35,7 @@ class Response {
 		}
 	}
 
-	public function SendEmail($i_To, $i_Subject, $i_Msg)
-	{
-		$v_Res = null;
+	public function SendToEmail($i_To, $i_Subject, $i_Msg) {
 		$v_To = $i_To;
 		$v_Subject = $i_Subject;
 		$v_Msg = $i_Msg;
@@ -47,7 +45,7 @@ class Response {
 		$headers .= 'From: <webmaster@example.com>' . "\r\n";
 		$headers .= 'Cc: myboss@example.com' . "\r\n";
 
-		$v_Res = mail($v_To, $v_Subject, $v_Msg, $headers);
+		return mail($v_To, $v_Subject, $v_Msg, $headers);
 	}
 	
 	/*----/ Getters & Setters */

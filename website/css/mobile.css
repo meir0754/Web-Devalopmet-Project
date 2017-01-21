@@ -1,7 +1,7 @@
-@media only screen and (min-width: 0px) and (max-width: 1280px) {
+@media screen and (max-width: 1280px) {
     
 }
-@media only screen and (min-width: 0px) and (max-width: 1080px) {
+@media screen and (max-width: 1080px) {
     .page-wrapper { max-width: 768px; }
 
     main .form-input-holder {
@@ -12,7 +12,7 @@
 
     #home-page .intro-img { min-height: 350px; }
 }
-@media only screen and (min-width: 0px ) and (max-width: 768px) {
+@media screen and (max-width: 768px) {
 	header > .top-head > aside, .top-foot > .social-btns-holder, .footer-widgets-holder, .foot-widget-elem, .foot-widget-elem > * {
         justify-content: center !important;
         -webkit-justify-content: center !important;
@@ -111,7 +111,7 @@
 
     #home-page .intro-img { min-height: 250px; }
 }
-@media only screen and (max-width: 420px) {
+@media screen and (max-width: 420px) {
 	 
     #home-page .intro-img { min-height: 130px; }
-} 
+}

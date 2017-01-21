@@ -56,29 +56,26 @@ class DBServlet {
 	// }
 
 	public function InsertCustomerApplyInput($i_CostumerApply){
+		$v_Response = new Response();
 	
-	$v_Response = new Response();
-	
-	try {
-		$this->initConnection();
+		try {
+			$this->initConnection();
 
-		$query = $this->connection->prepare("INSERT INTO CustomerSupport(Full_Name, Phone, Mail, Date, Subject, Message) VALUES(:fullName, :phone, :mail, :date, :subject, :msg)"); //---/ pdo example usage to select relevant data from table
-		$v_res = $query->execute(array(':fullName' => $i_CostumerApply->fullName, ':phone' => $i_CostumerApply->phone, ':mail' => $i_CostumerApply->mail, ':date' => $i_CostumerApply->date, ':subject' => $i_CostumerApply->subject, ':msg' => $i_CostumerApply->message));	
+			$query = $this->connection->prepare("INSERT INTO CustomerSupport(Full_Name, Phone, Mail, Date, Subject, Message) VALUES(:fullName, :phone, :mail, :date, :subject, :msg)"); //---/ pdo example usage to select relevant data from table
+			$v_res = $query->execute(array(':fullName' => $i_CostumerApply->fullName, ':phone' => $i_CostumerApply->phone, ':mail' => $i_CostumerApply->mail, ':date' => $this->GetCurrentTime(), ':subject' => $i_CostumerApply->subject, ':msg' => $i_CostumerApply->message));	
 
-		if ($v_res) {
-
-			$v_Response->SetMsg($v_res);
-			$v_Response->SetFlag(true);
-			$v_Response->SendToEmail($i_To, $i_Subject, $i_Msg)
+			if ($v_res) {
+				$v_Response->SetMsg($v_res);
+				$v_Response->SetFlag(true);
+			}
+		} catch(PDOException $e) {
+			$this->setConnectionStat(false); 
+			$v_Response->SetMsg($e); 
+			$v_Response->SetFlag(false); 
 		}
-	} catch(PDOException $e) {
-		$this->setConnectionStat(false); 
-		$v_Response->SetMsg($e); 
-		$v_Response->SetFlag(false); 
-	}
 
-	return $v_response;
-}
+		return $v_Response;
+	}
 
 
 // 	public function FetchCarsDetailsFromTable($i_Type){
@@ -108,20 +105,23 @@ class DBServlet {
 
 	
 	/*----/ Getters & Setters */
-	public function IsConected(){ //----/ THIS IS A MUST - DONT MODIFY
-		return $this->m_IsConnected;
-	}
-	
 	public function SetConnectionStat($bool){ //----/ THIS IS A MUST - DONT MODIFY
 		$this->m_IsConnected = $bool;
 	}
 	
-	/*----/ AID Funcs */
+	public function GetCurrentTime(){
+		return date('y-m-d H:i:s', time());
+	}
 
+	/*----/ AID Funcs */
 	// private function getSearchRange($i_StartRange, $i_EndRange){
 		// TODO
 	// }
 
+	public function IsConected(){ //----/ THIS IS A MUST - DONT MODIFY
+		return $this->m_IsConnected;
+	}
+	
 	private function initConnection() { //----/ THIS IS A MUST - DONT MODIFY
 		try {
 			$this->connection = new PDO("mysql:host=".$this->m_DbHost.";dbname=".$this->m_DbName, $this->m_DbUserName, $this->m_DbPassword);

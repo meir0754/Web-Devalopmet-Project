@@ -2,8 +2,8 @@
 var theGangSiteHomePageAnimationFlag = {'hasVisited': true}; //---/ flags if site is in browser cash (no need to preload twice)
 
 //---/ Aid funcs
-function throwPhaseOutput(i_phase, i_type, i_msg){ 
-    (i_type === 'error') ? $(i_phase + ' .output-message').addClass('error-message').text(i_msg) : $(i_phase + ' .output-message').text(i_msg) 
+function displayOutputMsg(i_type, i_msg){ 
+    (i_type === 'error') ? $('.output-message').addClass('error-message').text(i_msg) : $('.output-message').text(i_msg) 
 }
 
 function matchFeilds(i_field_1, i_field_2) { 
@@ -24,7 +24,7 @@ function setPageGlobalScripts() {
 
     $.each(_scriptSrcsList, function (key, scriptSrc) {
         //---/ will load the animation only for the first time user enters the site and only for the home page - else will set session storage as true for next round
-        if ((scriptSrc.indexOf('pace') > -1) && (_path.indexOf('index') > -1 ) && !(JSON.parse(sessionStorage.getItem('theGangSiteHomePageAnimationFlag')) != null && JSON.parse(sessionStorage.getItem('theGangSiteHomePageAnimationFlag')).hasVisited) ) {
+        if ((scriptSrc.indexOf('pace') > -1) && (_path === '/' ) && !(JSON.parse(sessionStorage.getItem('theGangSiteHomePageAnimationFlag')) != null && JSON.parse(sessionStorage.getItem('theGangSiteHomePageAnimationFlag')).hasVisited) ) {
             setScriptHelper(scriptSrc);
             sessionStorage.setItem('theGangSiteHomePageAnimationFlag', JSON.stringify(theGangSiteHomePageAnimationFlag));
         } else if (scriptSrc.indexOf('pace') < 0) setScriptHelper(scriptSrc);
@@ -37,7 +37,7 @@ function setNavBtnsAttr() {
         _class = 'nav-btn-active';
 
     $.each(_pagesList, function (key, page) {
-        if ((v_CurrPath.indexOf(page) > -1) || (page === 'home' && v_CurrPath.indexOf('index') > -1)) {
+        if ((v_CurrPath.indexOf(page) > -1) || (page === 'home' && v_CurrPath.indexOf('/') > -1)) {
             $('#nav-' + page + '-Btn').addClass(_class);
             $('body').attr('id', page + '-page');
         } else {
@@ -79,8 +79,8 @@ $(function () {
                 "returntype": "json"
             };
         
-        myCaller.sendCustomerApply(o_Requset, 'output-message', true, function(i_response){
-            console.log(i_response);
+        myCaller.sendCustomerApply(o_Requset, '.output-message', true, function(i_response){
+            (i_response) ? displayOutputMsg('', 'פנייתך התקבלה בהצלחה. נציג יצור איתך קשר בהקדם.') : displayOutputMsg('error', 'ארעה שגיאה. אנא נסה שנית מאוחר יותר.');
         });
     });
 });
