@@ -24,6 +24,10 @@
         -ms-flex-pack: center !important;
     }
 
+    .output-message {
+        width: 100%;
+    }
+
     .mobile-menu-btn { 
         display: block;
         height: 50px;

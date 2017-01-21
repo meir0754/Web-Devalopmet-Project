@@ -2,10 +2,6 @@
 var theGangSiteHomePageAnimationFlag = {'hasVisited': true}; //---/ flags if site is in browser cash (no need to preload twice)
 
 //---/ Aid funcs
-function displayOutputMsg(i_type, i_msg){ 
-    (i_type === 'error') ? $('.output-message').addClass('error-message').text(i_msg) : $('.output-message').text(i_msg) 
-}
-
 function matchFeilds(i_field_1, i_field_2) { 
     return (i_field_1 === i_field_2) ? true : false; 
 }
@@ -66,7 +62,7 @@ $(function () {
 
     $('form').submit(function(e){
         e.preventDefault();
-        
+        myPresentor.SetPartner('#' + $(this).attr('id'));
         var o_Requset = {
                 "method": "InsertNewApply",
                 "params": {
@@ -79,8 +75,11 @@ $(function () {
                 "returntype": "json"
             };
         
-        myCaller.sendCustomerApply(o_Requset, '.output-message', true, function(i_response){
-            (i_response) ? displayOutputMsg('', 'פנייתך התקבלה בהצלחה. נציג יצור איתך קשר בהקדם.') : displayOutputMsg('error', 'ארעה שגיאה. אנא נסה שנית מאוחר יותר.');
+        myCaller.sendCustomerApply(o_Requset,  + ' .output-message', true, function(i_response){
+            if (i_response == false || i_response.valid == undefined || i_response.valid == null || i_response.msg == undefined || i_response.msg == null || i_response.msg == '') myPresentor.RespondBaseErrorMsg();
+            else if (i_response.msg.indexOf('mail') != -1) myPresentor.RespondErrorMsg('כתובת המייל אינה תקינה');
+            else if (i_response.msg.indexOf('phone') != -1) myPresentor.RespondErrorMsg('מספר הטלפון אינו תקין');
+            else myPresentor.RespondValidMsg('', 'פנייתך התקבלה בהצלחה. נציג יצור איתך קשר בהקדם.');
         });
     });
 });

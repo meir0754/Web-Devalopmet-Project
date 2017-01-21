@@ -240,7 +240,7 @@ button {
 }
 
 .form-submit-btn {
-    margin: 25px 0;
+    margin: 25px 0 10px 0;
     background-color: #4f88c4;
 }
 
@@ -497,11 +497,13 @@ main .inner-title {
 
 .output-message {
     height: 60px;
-    line-height: 60px;
+    line-height: 30px;
     font-size: 14px;
     font-weight: 400;
     text-align: center;
-    color: blue;
+    color: #00cd47;
 }
+
+footer .output-message { color: white; }
 
 .error-message { color: red; }

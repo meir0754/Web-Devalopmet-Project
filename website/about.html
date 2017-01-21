@@ -27,22 +27,38 @@
 </head>
 <body>
     <header class="page-header" data-display="flex" data-flex-direction="column">
-            <div class="top-head page-wrapper" data-display="flex" data-align-items="start" data-justify-content="space-between">
-                <aside class="logo-holder" data-display="flex" data-justify-content="start">
-                    <div class="logo-img-inverted img-center-align"></div>
-                </aside>
-                <aside class="quick-links-holder" data-display="flex" data-justify-content="end">
-                    <button class="quick-btn quick-call-btn btn-img-align">חייג</button>
-                    <button class="quick-btn quick-nav-btn btn-img-align">נווט</button>
-                </aside>
-            </div><!--/ END: top-head /-->
-            <button class="mobile-menu-btn page-wrapper hamburger hamburger--squeeze" type="button">
-                <span class="hamburger-box">
-                    <span class="hamburger-inner"></span>
-                </span>
-            </button>
-            <div class="bottom-head page-wrapper" data-display="flex" data-justify-content="end">
-                <nav class="head-nav" data-display="flex" data-justify-content="end">
+        <div class="top-head page-wrapper" data-display="flex" data-align-items="start" data-justify-content="space-between">
+            <aside class="logo-holder" data-display="flex" data-justify-content="start">
+                <div class="logo-img-inverted img-center-align"></div>
+            </aside>
+            <aside class="quick-links-holder" data-display="flex" data-justify-content="end">
+                <button class="quick-btn quick-call-btn btn-img-align">חייג</button>
+                <button class="quick-btn quick-nav-btn btn-img-align">נווט</button>
+            </aside>
+        </div><!--/ END: top-head /-->
+        <button class="mobile-menu-btn page-wrapper hamburger hamburger--squeeze" type="button">
+            <span class="hamburger-box">
+                <span class="hamburger-inner"></span>
+            </span>
+        </button>
+        <div class="bottom-head page-wrapper" data-display="flex" data-justify-content="end">
+            <nav class="head-nav" data-display="flex" data-justify-content="end">
+                <a href="index.html" id="nav-home-Btn" class="nav-btn easy-transition">בית</a>
+                <div id="" class="nav-drop-menu-holder easy-transition nav-btn" data-display="flex" data-align-items="start">
+                    <a href="#" id="nav-search-Btn" class="nav-drop-menu-title easy-transition">חפש רכב</a>
+                    <ul id="" class="nav-drop-menu easy-transition">
+                        <a href="#"><li id="" class="nav-drop-menu-elem">יד שניה</li></a>
+                        <a href="#"><li id="" class="nav-drop-menu-elem">רכבים חדשים</li></a>
+                        <a href="#"><li id="" class="nav-drop-menu-elem">מבצעים</li></a>
+                        <a href="#"><li id="" class="nav-drop-menu-elem">חיפוש מתקדם</li></a>
+                    </ul>
+                </div>
+                <a href="about.html" id="nav-about-Btn" class="nav-btn easy-transition">אודות</a>
+                <a href="contact.html" id="nav-contact-Btn" class="nav-btn easy-transition">צור קשר</a>
+                <a href="regulation.html" id="nav-regulation-Btn" class="nav-btn easy-transition">תקנון</a>
+            </nav>
+            <div class="mobile-nav-holder">
+                <nav class="mobile-nav" data-display="flex" data-flex-direction="column">
                     <a href="index.html" id="nav-home-Btn" class="nav-btn easy-transition">בית</a>
                     <div id="" class="nav-drop-menu-holder easy-transition nav-btn" data-display="flex" data-align-items="start">
                         <a href="#" id="nav-search-Btn" class="nav-drop-menu-title easy-transition">חפש רכב</a>
@@ -57,25 +73,9 @@
                     <a href="contact.html" id="nav-contact-Btn" class="nav-btn easy-transition">צור קשר</a>
                     <a href="regulation.html" id="nav-regulation-Btn" class="nav-btn easy-transition">תקנון</a>
                 </nav>
-                <div class="mobile-nav-holder">
-                    <nav class="mobile-nav" data-display="flex" data-flex-direction="column">
-                        <a href="index.html" id="nav-home-Btn" class="nav-btn easy-transition">בית</a>
-                        <div id="" class="nav-drop-menu-holder easy-transition nav-btn" data-display="flex" data-align-items="start">
-                            <a href="#" id="nav-search-Btn" class="nav-drop-menu-title easy-transition">חפש רכב</a>
-                            <ul id="" class="nav-drop-menu easy-transition">
-                                <a href="#"><li id="" class="nav-drop-menu-elem">יד שניה</li></a>
-                                <a href="#"><li id="" class="nav-drop-menu-elem">רכבים חדשים</li></a>
-                                <a href="#"><li id="" class="nav-drop-menu-elem">מבצעים</li></a>
-                                <a href="#"><li id="" class="nav-drop-menu-elem">חיפוש מתקדם</li></a>
-                            </ul>
-                        </div>
-                        <a href="about.html" id="nav-about-Btn" class="nav-btn easy-transition">אודות</a>
-                        <a href="contact.html" id="nav-contact-Btn" class="nav-btn easy-transition">צור קשר</a>
-                        <a href="regulation.html" id="nav-regulation-Btn" class="nav-btn easy-transition">תקנון</a>
-                    </nav>
-                </div>
-            </div><!--/ END: header /-->
-        </header>
+            </div>
+        </div><!--/ END: header /-->
+    </header>
     <main class="page-wrapper page-main" data-display="flex" data-flex-direction="column">
         <h1 class="text-align-center">אודות</h1>
         <p>"מוסכי הסוכנות" בע"מ הינו עסק לשירותי רכב, מכירה, תיקון ואחזקה, ליסינג וטרייד אין, הקיים משנת 1954. משנת 1992 "הסוכנות" הינה סוכנות מורשית לרכבי TOYOTA בישראל. החברה הוקמה ע"י מרדכי אמיתי ז"ל, מבניה הראשונים של העיר נתניה.</p>
@@ -114,10 +114,10 @@
         <div class="mid-foot">
             <div id="" class="page-wrapper footer-widgets-holder" data-display="flex" data-justify-content="space-between" data-align-items="start">
 
-                <form class="quick-contact-form-widget foot-widget-elem" data-display="flex" data-flex-direction="column" data-align-items="start" data-justify-content="start">
+                <form id="foot-widget-form" class="quick-contact-form-widget foot-widget-elem" data-display="flex" data-flex-direction="column" data-align-items="start" data-justify-content="start">
                     <h3 id="" class="widgets-title">צור קשר</h3>
                     <div id="" class="quick-contact-form-row" data-display="flex" data-justify-content="start" data-align-items="start">
-                        <label>*</label><input type="text" name="name" placeholder="שם מלא" required />
+                        <label>*</label><input type="text" name="name" maxlength="20" placeholder="שם מלא" required />
                     </div>
                     <div id="" class="quick-contact-form-row" data-display="flex" data-justify-content="start" data-align-items="start">
                         <label>*</label><input type="text" name="phone" placeholder="טלפון" required />
@@ -129,6 +129,7 @@
                         <label>*</label><textarea type="text" name="message" placeholder="הודעה" required></textarea>
                     </div>
                     <button type="submit" class="main-btn form-submit-btn easy-transition">שלח</button>
+                    <div class="output-message easy-transition"></div>
                 </form>
                 <div id="" class="foot-info-container foot-widget-elem">
                     <h3 id="" class="widgets-title">פרטים</h3>
