@@ -34,19 +34,6 @@ class Response {
 			setcookie($i_CookieName, $i_Value, $v_ExpirationTime);
 		}
 	}
-
-	public function SendToEmail($i_To, $i_Subject, $i_Msg) {
-		$v_To = $i_To;
-		$v_Subject = $i_Subject;
-		$v_Msg = $i_Msg;
-
-		$headers = "MIME-Version: 1.0" . "\r\n";
-		$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-		$headers .= 'From: <webmaster@example.com>' . "\r\n";
-		$headers .= 'Cc: myboss@example.com' . "\r\n";
-
-		return mail($v_To, $v_Subject, $v_Msg, $headers);
-	}
 	
 	/*----/ Getters & Setters */
 	public function SetMsg($i_Msg) { 

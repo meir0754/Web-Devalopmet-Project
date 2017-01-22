@@ -75,11 +75,13 @@ $(function () {
                 "returntype": "json"
             };
         
-        myCaller.sendCustomerApply(o_Requset,  + ' .output-message', true, function(i_response){
-            if (i_response == false || i_response.valid == undefined || i_response.valid == null || i_response.msg == undefined || i_response.msg == null || i_response.msg == '') myPresentor.RespondBaseErrorMsg();
+        myCaller.sendCustomerApply(o_Requset, myPresentor.GetCurrMsgBox(), true, function(i_response){
+            if (!i_response) myPresentor.RespondBaseErrorMsg();
+            else if (i_response) myPresentor.RespondValidMsg('פנייתך התקבלה בהצלחה. נציג יצור איתך קשר בהקדם.'); 
+            else if (i_response.valid == undefined || i_response.valid == null || i_response.msg == undefined || i_response.msg == null || i_response.msg == '') myPresentor.RespondInternalError(i_response);
             else if (i_response.msg.indexOf('mail') != -1) myPresentor.RespondErrorMsg('כתובת המייל אינה תקינה');
             else if (i_response.msg.indexOf('phone') != -1) myPresentor.RespondErrorMsg('מספר הטלפון אינו תקין');
-            else myPresentor.RespondValidMsg('', 'פנייתך התקבלה בהצלחה. נציג יצור איתך קשר בהקדם.');
+            else myPresentor.RespondBaseErrorMsg();
         });
     });
 });

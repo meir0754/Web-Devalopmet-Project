@@ -69,6 +69,7 @@ AIDLib.Caller = (function(){
             this.m_response = jqXHR.responseText;
 			console.error(this.m_response);
 		}).always(function(){
+
 			if (i_toAnimateLoader) toggleLoadAnimation(i_animationParentSelector);
 			if (typeof o_callback === 'function' && o_callback != 'undefined')  o_callback(this.m_response);
 		});
@@ -119,6 +120,11 @@ AIDLib.MessagePresentor = (function(){
 	MessagePresentor.prototype.RespondValidMsg = function(i_msg){
 		if (this.m_conversationPartner == '') console.error('no partner was setted for this conversation.');
 		else $(this.GetCurrMsgBox()).text(i_msg);
+	}
+
+	MessagePresentor.prototype.RespondInternalError = function(i_msg){
+		console.log(i_msg);
+		this.RespondBaseErrorMsg();
 	}
 
 	return MessagePresentor;
