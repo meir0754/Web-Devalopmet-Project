@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+    <script>
+        $(function () {
+            var k_InvalidMsg = 'הערך אינו תקין!',
+                _Elements = ['input', 'select'];
+
+            $.each(_Elements, function (key, val) {
+                InvalidInputHelper($(val), {
+                    defaultText: k_InvalidMsg,
+                    emptyText: k_InvalidMsg,
+                    invalidText: function (input) {
+                        return 'הערך "' + input.value + '" אינו תקין!';
+                    }
+                });
+            });
+        });
+        
+
+        (function (exports) {
+            function valOrFunction(val, ctx, args) {
+                if (typeof val == "function") {
+                    return val.apply(ctx, args);
+                } else {
+                    return val;
+                }
+            }
+
+            function InvalidInputHelper(i_ElemToCheck, options) {
+                $.each(i_ElemToCheck, function (key, input) {
+                    input.setCustomValidity(valOrFunction(options.defaultText, window, [input]));
+
+                    function changeOrInput() {
+                        if (input.value == "") {
+                            input.setCustomValidity(valOrFunction(options.emptyText, window, [input]));
+                        } else {
+                            input.setCustomValidity("");
+                        }
+                    }
+
+                    function invalid() {
+                        if (input.value == "") {
+                            input.setCustomValidity(valOrFunction(options.emptyText, window, [input]));
+                        } else {
+                            input.setCustomValidity(valOrFunction(options.invalidText, window, [input]));
+                        }
+                    }
+
+                    input.addEventListener("change", changeOrInput);
+                    input.addEventListener("input", changeOrInput);
+                    input.addEventListener("invalid", invalid);
+                });
+            }
+
+            exports.InvalidInputHelper = InvalidInputHelper;
+        })(window);
+
+    </script>
+
+</head>
+<body>
+    <form action="">
+        <select>
+            <option selected disabled>...</option>
+            <option>select me</option>
+        </select>
+        <input id="email" type="email" required="required" />
+        <input type="submit" id="btnSubmit" />
+    </form>
+</body>
+</html>

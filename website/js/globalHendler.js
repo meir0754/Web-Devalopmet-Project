@@ -16,7 +16,7 @@ function setPageGlobalScripts() {
     } 
 
     var _path = window.location.pathname,
-        _scriptSrcsList = ['applicationLogic/PL/js/AIDLib.js','js/navigationHelper.js', 'js/phoneCallerHelper.js', 'js/easyScrollHandler.js', 'js/navMenuHelper.js', 'applicationLogic/PL/js/pace.js', 'js/hamburgerBtnHendler.js'];
+        _scriptSrcsList = ['applicationLogic/PL/js/AIDLib.js','js/navigationHelper.js', 'js/phoneCallerHelper.js', 'js/easyScrollHandler.js', 'js/navMenuHelper.js', 'applicationLogic/PL/js/pace.js', 'js/hamburgerBtnHendler.js', 'js/InvalidCustomBubble_HE.js'];
 
     $.each(_scriptSrcsList, function (key, scriptSrc) {
         //---/ will load the animation only for the first time user enters the site and only for the home page - else will set session storage as true for next round
@@ -28,12 +28,13 @@ function setPageGlobalScripts() {
 }
 
 function setNavBtnsAttr() {
-    var _pagesList = ['home', 'about', 'search', 'contact', 'regulation'],
+    var _pagesList = ['index', 'about', 'search', 'contact', 'regulation'],
         v_CurrPath = window.location.pathname,
         _class = 'nav-btn-active';
 
     $.each(_pagesList, function (key, page) {
-        if ((v_CurrPath.indexOf(page) > -1) || (page === 'home' && v_CurrPath.indexOf('/') > -1)) {
+        if ((v_CurrPath.indexOf(page) > -1) || (v_CurrPath === '/')) {
+            if (page === 'index') page = 'home';
             $('#nav-' + page + '-Btn').addClass(_class);
             $('body').attr('id', page + '-page');
         } else {
