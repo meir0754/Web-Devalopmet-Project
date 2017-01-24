@@ -33,7 +33,7 @@ function setNavBtnsAttr() {
         _class = 'nav-btn-active';
 
     $.each(_pagesList, function (key, page) {
-        if ((v_CurrPath.indexOf(page) > -1) || (v_CurrPath === '/')) {
+        if ((v_CurrPath.indexOf(page) > -1) || ((v_CurrPath === '/') && (page === 'index'))) {
             if (page === 'index') page = 'home';
             $('#nav-' + page + '-Btn').addClass(_class);
             $('body').attr('id', page + '-page');
