@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="theGang">
+    <link rel="shortcut icon" href="imgs/fav_ic.ico">
+    <title>search car</title>
+
+    <!--/ Fonts /-->
+    <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800">
+    <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik:400,300,300italic,400italic,500,500italic,700,700italic,900,900italic&amp;subset=latin,hebrew">
+    <link type="text/css" rel="stylesheet" href="css/extraFonts/openSans/openSansLight.css">
+
+    <!--/ StyleSheets /-->
+    <link type="text/css" rel="stylesheet" href="css/style.css">
+    <link type="text/css" rel="stylesheet" href="css/mobile.css">
+
+    <!--/ Extentions /-->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+    <script type="text/javascript" src="applicationLogic/PL/js/CBflexExtention.js"></script>
+
+    <!--/ Hendlers /-->
+    <script type="text/javascript" src="js/globalHendler.js"></script>
+    
+    <!--/ Helpers /-->
+</head>
+<body>
+    <header class="page-header" data-display="flex" data-flex-direction="column">
+            <div class="top-head page-wrapper" data-display="flex" data-align-items="start" data-justify-content="space-between">
+                <aside class="logo-holder" data-display="flex" data-justify-content="start">
+                    <div class="logo-img-inverted img-center-align"></div>
+                </aside>
+                <aside class="quick-links-holder" data-display="flex" data-justify-content="end">
+                    <button class="quick-btn quick-call-btn btn-img-align">חייג</button>
+                    <button class="quick-btn quick-nav-btn btn-img-align">נווט</button>
+                </aside>
+            </div><!--/ END: top-head /-->
+            <button class="mobile-menu-btn page-wrapper hamburger hamburger--squeeze" type="button">
+                <span class="hamburger-box">
+                    <span class="hamburger-inner"></span>
+                </span>
+            </button>
+            <div class="bottom-head page-wrapper" data-display="flex" data-justify-content="end">
+                <nav class="head-nav" data-display="flex" data-justify-content="end">
+                    <a href="index.html" id="nav-home-Btn" class="nav-btn easy-transition">בית</a>
+                    <div id="" class="nav-drop-menu-holder easy-transition nav-btn" data-display="flex" data-align-items="start">
+                        <a href="#" id="nav-search-Btn" class="nav-drop-menu-title easy-transition">חפש רכב</a>
+                        <ul id="" class="nav-drop-menu easy-transition">
+                            <a href="#"><li id="" class="nav-drop-menu-elem">יד שניה</li></a>
+                            <a href="#"><li id="" class="nav-drop-menu-elem">רכבים חדשים</li></a>
+                            <a href="#"><li id="" class="nav-drop-menu-elem">מבצעים</li></a>
+                            <a href="#"><li id="" class="nav-drop-menu-elem">חיפוש מתקדם</li></a>
+                        </ul>
+                    </div>
+                    <a href="about.html" id="nav-about-Btn" class="nav-btn easy-transition">אודות</a>
+                    <a href="contact.html" id="nav-contact-Btn" class="nav-btn easy-transition">צור קשר</a>
+                    <a href="regulation.html" id="nav-regulation-Btn" class="nav-btn easy-transition">תקנון</a>
+                </nav>
+                <div class="mobile-nav-holder">
+                    <nav class="mobile-nav" data-display="flex" data-flex-direction="column">
+                        <a href="index.html" id="nav-home-Btn" class="nav-btn easy-transition">בית</a>
+                        <div id="" class="nav-drop-menu-holder easy-transition nav-btn" data-display="flex" data-align-items="start">
+                            <a href="#" id="nav-search-Btn" class="nav-drop-menu-title easy-transition">חפש רכב</a>
+                            <ul id="" class="nav-drop-menu easy-transition">
+                                <a href="#"><li id="" class="nav-drop-menu-elem">יד שניה</li></a>
+                                <a href="#"><li id="" class="nav-drop-menu-elem">רכבים חדשים</li></a>
+                                <a href="#"><li id="" class="nav-drop-menu-elem">מבצעים</li></a>
+                                <a href="#"><li id="" class="nav-drop-menu-elem">חיפוש מתקדם</li></a>
+                            </ul>
+                        </div>
+                        <a href="about.html" id="nav-about-Btn" class="nav-btn easy-transition">אודות</a>
+                        <a href="contact.html" id="nav-contact-Btn" class="nav-btn easy-transition">צור קשר</a>
+                        <a href="regulation.html" id="nav-regulation-Btn" class="nav-btn easy-transition">תקנון</a>
+                    </nav>
+                </div>
+            </div><!--/ END: header /-->
+        </header>
+    <main class="page-wrapper page-main">
+        <h1 class="text-align-center">מצא את הרכב הבא שלך</h1>
+        <div class="cars-container" data-dipsplay="flex">
+            <div id="car-{0}" class="car-box" data-display="flex" data-flex-dirdction="column">
+                <div class="car-mini-img">{1}</div>
+                <p class="car-box-model">{2}</p>
+                <p class="car-box-price">החל מ-{3} &#8362;</p>
+            </div>
+        </div>
+        
+
+    </main><!--/ END: page-main /-->
+    <footer class="page-footer" data-display="flex" data-flex-direction="column">
+        <aside id="" class="top-foot page-wrapper" data-display="flex" data-justify-content="space-between">
+            <button id="" class="back-toTop-btn easy-transition scrollup"></button>
+            <div id="" class="social-btns-holder" data-display="flex" data-justify-content="end">
+                <a href="#" class="social-btn img-center-align linkedin-btn easy-transition"></a>
+                <a href="#" class="social-btn img-center-align googlep-btn easy-transition"></a>
+                <a href="#" class="social-btn img-center-align twitter-btn easy-transition"></a>
+                <a href="#" class="social-btn img-center-align facebook-btn easy-transition"></a>
+            </div>
+        </aside>
+        <div class="mid-foot">
+            <div id="" class="page-wrapper footer-widgets-holder" data-display="flex" data-justify-content="space-between" data-align-items="start">
+
+                <form class="quick-contact-form-widget foot-widget-elem" data-display="flex" data-flex-direction="column" data-align-items="start" data-justify-content="start">
+                    <h3 id="" class="widgets-title">צור קשר</h3>
+                    <div id="" class="quick-contact-form-row" data-display="flex" data-justify-content="start" data-align-items="start">
+                        <label>*</label><input type="text" name="name" placeholder="שם מלא" required />
+                    </div>
+                    <div id="" class="quick-contact-form-row" data-display="flex" data-justify-content="start" data-align-items="start">
+                        <label>*</label><input type="text" name="phone" placeholder="טלפון" required />
+                    </div>
+                    <div id="" class="quick-contact-form-row" data-display="flex" data-justify-content="start" data-align-items="start">
+                        <label>*</label><input type="email" name="email" placeholder="מייל" required />
+                    </div>
+                    <div id="" class="quick-contact-form-row" data-display="flex" data-justify-content="start" data-align-items="start">
+                        <label>*</label><textarea type="text" name="message" placeholder="הודעה" required></textarea>
+                    </div>
+                    <button type="submit" class="main-btn form-submit-btn easy-transition">שלח</button>
+                </form>
+                <div id="" class="foot-info-container foot-widget-elem">
+                    <h3 id="" class="widgets-title">פרטים</h3>
+                    <div class="foot-info-widget" data-display="flex" data-flex-direction="column" data-align-items="start" data-justify-content="space-between">
+                        <p class="foot-info-address">רח' דיזינגוף 52, ת"א</p>
+                        <p class="foot-info-phone">03-1111111</p>
+                        <a href="mailto:office@the-agency.co.il">office@the-agency.co.il</a>
+                        <p class="foot-info-activety">ימים א-ה 08:00 עד 18:00</p>
+                    </div>
+                </div>
+                <div id="" class="foot-nav-container foot-widget-elem">
+                    <h3 id="" class="widgets-title">עמודים</h3>
+                    <nav class="foot-nav-widget" data-display="flex" data-flex-direction="column" data-align-items="start" data-justify-content="space-between">
+                        <a href="#" id="nav-home-Btn" class="nav-btn easy-transition">בית</a>
+                        <a href="#" id="nav-search-Btn" class="nav-btn easy-transition">חפש רכב</a>
+                        <a href="#" id="nav-about-Btn" class="nav-btn easy-transition">אודות</a>
+                        <a href="#" id="nav-contact-Btn" class="nav-btn easy-transition">צור קשר</a>
+                        <a href="#" id="nav-regulation-Btn" class="nav-btn easy-transition">תקנון</a>
+                    </nav>
+                </div>
+
+                <div id="" class="logo-img-holder foot-widget-elem" data-display="flex" data-align-items="start" data-justify-content="end">
+                    <div class="logo-img-inverted img-center-align"></div>
+                </div>
+            </div>
+        </div>
+        <aside id="" class="bottom-foot page-wrapper" data-display="flex"><p>&copy; כל הזכויות שמורות.</p></aside>
+    </footer><!--/ END: page-footer /-->
+</body>
+</html>
