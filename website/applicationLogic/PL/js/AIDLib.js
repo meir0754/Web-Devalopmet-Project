@@ -2,6 +2,12 @@
 var AIDLib = AIDLib || {};
 
 //----/ AID FUNCS
+function inherit(i_Base, i_Derived) {
+	function Dummy() { }
+	Dummy.prototype = i_Base.prototype;
+	i_Derived.prototype = new Dummy();
+}
+
 function toggleLoadAnimation(i_obj) { //---/ make sure css is hooked aswell!
 	if (i_obj.length != undefined) {
 		var _loaderClass = 'loader',
@@ -54,7 +60,7 @@ AIDLib.Caller = (function(){
 		this.m_pathToCall = (i_pathToCall != undefined) ? i_pathToCall : '';
 		this.m_animationParent = false;
 		this.m_response;
-		this.m_validResponse = true;
+		this.m_validResponse;
 	}
 
 	//---/ Methods
@@ -63,13 +69,13 @@ AIDLib.Caller = (function(){
 		
 		$.post(this.m_pathToCall, JSON.stringify(i_objToSend), function(i_response){
 			this.m_validResponse = true;
-			this.m_response = JSON.parse(i_response);
+			if (Object.prototype.toString.call(i_response) === '[object Array]') this.m_response = i_response;
+			else this.m_response = JSON.parse(i_response);
 		}).fail(function (jqXHR, textStatus, errorThrown) {
 			this.m_validResponse = false;
             this.m_response = jqXHR.responseText;
 			console.error(this.m_response);
 		}).always(function(){
-
 			if (i_toAnimateLoader) toggleLoadAnimation(i_animationParentSelector);
 			if (typeof o_callback === 'function' && o_callback != 'undefined')  o_callback(this.m_response);
 		});
@@ -87,6 +93,23 @@ AIDLib.Caller = (function(){
 	}
 
 	//---/ Getters & Setters
+	Caller.prototype.getAllSearchResaults = function(i_animationParentSelector, i_toAnimateLoader, o_callback){
+		o_request = {
+			'method': 'GetAllCars',
+			'params': ''
+		};
+
+		this.makeCall(o_request, i_animationParentSelector, i_toAnimateLoader, o_callback);
+	}
+
+	Caller.prototype.getLastResponse = function(){
+		return this.m_response;
+	}
+
+	Caller.prototype.isValidResponse = function(){
+		return this.m_validResponse;
+	}
+
 	return Caller;
 })();
 
@@ -128,6 +151,96 @@ AIDLib.MessagePresentor = (function(){
 	}
 
 	return MessagePresentor;
+})();
+
+AIDLib.SearchResaultsBuilder = (function(){
+	function SearchResaultsBuilder(i_parent, i_template){
+		//--/ 0 = id, 1 = img, 2 = item name, 3 = price
+		this.m_defaultResaultTemplate = (i_template != '' || i_template != undefined) ? i_template : '';
+		this.m_resaultTemplate = this.m_defaultResaultTemplate;
+		this.m_parent = (i_parent != '' || i_parent != undefined) ? i_parent : '';
+		this.m_resaultsArr = [];
+	}
+
+	SearchResaultsBuilder.prototype.setNewResaultParent = function(i_resaultParent){
+		this.m_parent = (i_resaultParent != '' || i_resaultParent != undefined) ? i_resaultParent : '';
+	}
+	
+	SearchResaultsBuilder.prototype.setNewResaultTemplate = function(i_template){
+		this.m_resaultTemplate = (i_template != '' || i_template != undefined) ? i_template : '';
+	}
+
+	SearchResaultsBuilder.prototype.setResaultArr = function(i_resaultArr){
+		this.m_resaultsArr = i_resaultArr;
+	}
+
+	SearchResaultsBuilder.prototype.restoreTemplateToDefault = function(){
+		this.m_resaultTemplate = this.m_defaultResaultTemplate;
+	}
+
+	SearchResaultsBuilder.prototype.getParentSelector = function(){
+		return this.m_parent;
+	}
+			
+	return SearchResaultsBuilder;
+})();
+
+AIDLib.SmallResaultBuilder = (function(){
+	var m_searchResaultsBuilder = AIDLib.SearchResaultsBuilder;
+
+	function SmallResaultBuilder(i_parent){
+		//--/ 0 = id, 1 = img, 2 = item name, 3 = price
+		this.m_defaultSmallResaultTemplate = '<div id="car-{0}" class="car-box" data-display="flex" data-flex-dirdction="column"><div class="car-mini-img">{1}</div><p class="car-box-model">{2}</p><p class="car-box-price">החל מ-{3} &#8362;</p></div>';
+		this.m_parent = (i_parent != '' || i_parent != undefined) ? i_parent : '';
+		m_searchResaultsBuilder.call(this, this.m_parent, this.m_defaultSmallResaultTemplate);
+	}
+	
+	SmallResaultBuilder.prototype.buildResaultBox = function(){
+		if (Object.prototype.toString.call(this.m_resaultsArr) != '[object Array]' || (Object.prototype.toString.call(this.m_resaultsArr) === '[object Array]' && this.m_resaultsArr.length == 0) || this.m_parent === '') console.log('missing parameters on search builder.');
+		else {
+			var _res = '';
+
+			$.each(this.m_resaultsArr, function(key, car){
+				_res += this.m_resaultTemplate.format([car.id, car.image, car.details, car.price]);
+			});
+			
+			$(this.m_parent).append(_res);
+		}
+	}
+
+	inherit(m_searchResaultsBuilder, SmallResaultBuilder);
+
+	return SmallResaultBuilder;
+})();
+
+AIDLib.BigResaultBuilder = (function(){
+	var m_searchResaultsBuilder = AIDLib.SearchResaultsBuilder;
+
+	function BigResaultBuilder(i_parent){
+		//--/ 0 = id, 1 = 
+		this.m_defaultBigResaultTemplate = '';
+		this.m_parent = (i_parent != '' || i_parent != undefined) ? i_parent : '';
+		m_searchResaultsBuilder.call(this, this.m_parent, this.m_defaultBigResaultTemplate);
+	}
+	
+	BigResaultBuilder.prototype.buildResaultBox = function(i_arr){
+		if (Object.prototype.toString.call(this.m_resaultsArr) != '[object Array]' || (Object.prototype.toString.call(this.m_resaultsArr) === '[object Array]' && this.m_resaultsArr.length == 0) || this.m_parent === '') console.log('missing parameters on search builder.');
+		else $(this.m_parent).append(this.m_resaultTemplate.format(i_arr)); //TODO: make build accomodations here
+	}
+
+	inherit(m_searchResaultsBuilder, BigResaultBuilder);
+
+	return BigResaultBuilder;
+})();
+
+AIDLib.SearchResaultsDirector = (function(){
+	function SearchResaultsDirector(){ }
+
+	SearchResaultsDirector.prototype.construct = function(i_builder){
+		i_builder.buildResaultBox();
+	}
+
+	return SearchResaultsDirector;
 })();
 
 //----/ HANDLER

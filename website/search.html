@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="he" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,27 +22,45 @@
 
     <!--/ Hendlers /-->
     <script type="text/javascript" src="js/globalHendler.js"></script>
+    <script type="text/javascript" src="applicationLogic/PL/js/AIDLib.js"></script>
+    <script type="text/javascript" src="js/searchHendler.js"></script>
     
     <!--/ Helpers /-->
 </head>
 <body>
     <header class="page-header" data-display="flex" data-flex-direction="column">
-            <div class="top-head page-wrapper" data-display="flex" data-align-items="start" data-justify-content="space-between">
-                <aside class="logo-holder" data-display="flex" data-justify-content="start">
-                    <div class="logo-img-inverted img-center-align"></div>
-                </aside>
-                <aside class="quick-links-holder" data-display="flex" data-justify-content="end">
-                    <button class="quick-btn quick-call-btn btn-img-align">חייג</button>
-                    <button class="quick-btn quick-nav-btn btn-img-align">נווט</button>
-                </aside>
-            </div><!--/ END: top-head /-->
-            <button class="mobile-menu-btn page-wrapper hamburger hamburger--squeeze" type="button">
-                <span class="hamburger-box">
-                    <span class="hamburger-inner"></span>
-                </span>
-            </button>
-            <div class="bottom-head page-wrapper" data-display="flex" data-justify-content="end">
-                <nav class="head-nav" data-display="flex" data-justify-content="end">
+        <div class="top-head page-wrapper" data-display="flex" data-align-items="start" data-justify-content="space-between">
+            <aside class="logo-holder" data-display="flex" data-justify-content="start">
+                <div class="logo-img-inverted img-center-align"></div>
+            </aside>
+            <aside class="quick-links-holder" data-display="flex" data-justify-content="end">
+                <button class="quick-btn quick-call-btn btn-img-align">חייג</button>
+                <button class="quick-btn quick-nav-btn btn-img-align">נווט</button>
+            </aside>
+        </div><!--/ END: top-head /-->
+        <button class="mobile-menu-btn page-wrapper hamburger hamburger--squeeze" type="button">
+            <span class="hamburger-box">
+                <span class="hamburger-inner"></span>
+            </span>
+        </button>
+        <div class="bottom-head page-wrapper" data-display="flex" data-justify-content="end">
+            <nav class="head-nav" data-display="flex" data-justify-content="end">
+                <a href="index.html" id="nav-home-Btn" class="nav-btn easy-transition">בית</a>
+                <div id="" class="nav-drop-menu-holder easy-transition nav-btn" data-display="flex" data-align-items="start">
+                    <a href="#" id="nav-search-Btn" class="nav-drop-menu-title easy-transition">חפש רכב</a>
+                    <ul id="" class="nav-drop-menu easy-transition">
+                        <a href="#"><li id="" class="nav-drop-menu-elem">יד שניה</li></a>
+                        <a href="#"><li id="" class="nav-drop-menu-elem">רכבים חדשים</li></a>
+                        <a href="#"><li id="" class="nav-drop-menu-elem">מבצעים</li></a>
+                        <a href="#"><li id="" class="nav-drop-menu-elem">חיפוש מתקדם</li></a>
+                    </ul>
+                </div>
+                <a href="about.html" id="nav-about-Btn" class="nav-btn easy-transition">אודות</a>
+                <a href="contact.html" id="nav-contact-Btn" class="nav-btn easy-transition">צור קשר</a>
+                <a href="regulation.html" id="nav-regulation-Btn" class="nav-btn easy-transition">תקנון</a>
+            </nav>
+            <div class="mobile-nav-holder">
+                <nav class="mobile-nav" data-display="flex" data-flex-direction="column">
                     <a href="index.html" id="nav-home-Btn" class="nav-btn easy-transition">בית</a>
                     <div id="" class="nav-drop-menu-holder easy-transition nav-btn" data-display="flex" data-align-items="start">
                         <a href="#" id="nav-search-Btn" class="nav-drop-menu-title easy-transition">חפש רכב</a>
@@ -57,33 +75,13 @@
                     <a href="contact.html" id="nav-contact-Btn" class="nav-btn easy-transition">צור קשר</a>
                     <a href="regulation.html" id="nav-regulation-Btn" class="nav-btn easy-transition">תקנון</a>
                 </nav>
-                <div class="mobile-nav-holder">
-                    <nav class="mobile-nav" data-display="flex" data-flex-direction="column">
-                        <a href="index.html" id="nav-home-Btn" class="nav-btn easy-transition">בית</a>
-                        <div id="" class="nav-drop-menu-holder easy-transition nav-btn" data-display="flex" data-align-items="start">
-                            <a href="#" id="nav-search-Btn" class="nav-drop-menu-title easy-transition">חפש רכב</a>
-                            <ul id="" class="nav-drop-menu easy-transition">
-                                <a href="#"><li id="" class="nav-drop-menu-elem">יד שניה</li></a>
-                                <a href="#"><li id="" class="nav-drop-menu-elem">רכבים חדשים</li></a>
-                                <a href="#"><li id="" class="nav-drop-menu-elem">מבצעים</li></a>
-                                <a href="#"><li id="" class="nav-drop-menu-elem">חיפוש מתקדם</li></a>
-                            </ul>
-                        </div>
-                        <a href="about.html" id="nav-about-Btn" class="nav-btn easy-transition">אודות</a>
-                        <a href="contact.html" id="nav-contact-Btn" class="nav-btn easy-transition">צור קשר</a>
-                        <a href="regulation.html" id="nav-regulation-Btn" class="nav-btn easy-transition">תקנון</a>
-                    </nav>
-                </div>
-            </div><!--/ END: header /-->
-        </header>
+            </div>
+        </div><!--/ END: header /-->
+    </header>
     <main class="page-wrapper page-main">
         <h1 class="text-align-center">מצא את הרכב הבא שלך</h1>
-        <div class="cars-container" data-dipsplay="flex">
-            <div id="car-{0}" class="car-box" data-display="flex" data-flex-dirdction="column">
-                <div class="car-mini-img">{1}</div>
-                <p class="car-box-model">{2}</p>
-                <p class="car-box-price">החל מ-{3} &#8362;</p>
-            </div>
+        <div id="search-resaults-holder" class="cars-container" data-dipsplay="flex">
+            
         </div>
         
 

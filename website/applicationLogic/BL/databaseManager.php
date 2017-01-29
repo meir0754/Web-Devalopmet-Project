@@ -4,8 +4,6 @@ ini_set('display_errors',1);
 error_reporting(E_ALL | E_STRICT);
 
 include "DataBaseLogic/DBServlet.php"; //---/ include the servlet class that will be incharge of communication with the tables
-include "DataBaseLogic/User.php"; //---/ include user class (maybe will be removed)
-include "DataBaseLogic/RegisterdUser.php"; //---/ include registerd user class (maybe will be removed)
 
 /*-------------------------------------------------------------------------------/ class DATABASE MANAGER */
 class DBManager {
@@ -33,7 +31,9 @@ class DBManager {
 	}
 
 	// /*----/ Getters & Setters */	
-
+	public function GetAllCars(){
+		return $this->m_DbServlet->GetAllCarsInDb(); 
+	}
 	
 	/*----/ AID Funcs */
 	//---/ USE PRIVATE FUNCS HERE IF NEEDED

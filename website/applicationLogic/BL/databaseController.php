@@ -9,7 +9,8 @@ include "databaseManager.php"; //---/ include the manager class
 	// allowed requstes here (method names as array)
 	$allowedRequsets = array(
 						"InsertNewApply",
-						"SendMail"
+						"SendMail",
+						"GetAllCars"
 						);    
 // =======================================================================
 

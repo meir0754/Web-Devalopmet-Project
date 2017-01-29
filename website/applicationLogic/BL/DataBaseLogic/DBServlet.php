@@ -113,6 +113,31 @@ class DBServlet {
 		return date('y-m-d H:i:s', time());
 	}
 
+	public function GetAllCarsInDb(){
+		$v_Response = new Response();
+	
+		try {
+			$this->initConnection();
+
+			$query = $this->connection->prepare("SELECT * FROM Cars");
+			$query->execute();	
+			$v_res = $query->fetchAll();
+
+			if ($v_res) {
+				$v_Response->SetMsg('successful');
+				$v_Response->SetFlag(true);
+
+				return $v_res;
+			}
+		} catch(PDOException $e) {
+			$this->setConnectionStat(false); 
+			$v_Response->SetMsg($e); 
+			$v_Response->SetFlag(false); 
+		}
+
+		return $v_Response;
+	}
+
 	/*----/ AID Funcs */
 	// private function getSearchRange($i_StartRange, $i_EndRange){
 		// TODO

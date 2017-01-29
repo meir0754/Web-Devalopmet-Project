@@ -1,5 +1,5 @@
 //----/ JQ HENDLER /----/
-$(function () {
+Run(function(){
     //---/ Globe
 
     //---/ Listeners
