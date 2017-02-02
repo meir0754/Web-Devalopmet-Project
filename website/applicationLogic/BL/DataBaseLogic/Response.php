@@ -7,6 +7,7 @@ error_reporting(E_ALL | E_STRICT);
 class Response {
 	private $m_AbsFlag;
 	private $m_Msg;
+	private $m_Data;
 	
 	/*----/ CTOR */
 	function Response() {
@@ -50,6 +51,14 @@ class Response {
 
 	public function GetFlag() {
 		return $this->m_AbsFlag;
+	}
+	
+	public function SetData($i_Data) { 
+		$this->m_Data = $i_Data;
+	}
+
+	public function GetData() {
+		return $this->m_Data;
 	}
 }
 

@@ -15,6 +15,7 @@
     <!--/ StyleSheets /-->
     <link type="text/css" rel="stylesheet" href="css/style.css">
     <link type="text/css" rel="stylesheet" href="css/mobile.css">
+    <link type="text/css" rel="stylesheet" href="css/dataTransferAnimation.css">
 
     <!--/ Extentions /-->
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
@@ -45,42 +46,85 @@
         </button>
         <div class="bottom-head page-wrapper" data-display="flex" data-justify-content="end">
             <nav class="head-nav" data-display="flex" data-justify-content="end">
-                <a href="index.html" id="nav-home-Btn" class="nav-btn easy-transition">בית</a>
-                <div id="" class="nav-drop-menu-holder easy-transition nav-btn" data-display="flex" data-align-items="start">
-                    <a href="#" id="nav-search-Btn" class="nav-drop-menu-title easy-transition">חפש רכב</a>
-                    <ul id="" class="nav-drop-menu easy-transition">
-                        <a href="#"><li id="" class="nav-drop-menu-elem">יד שניה</li></a>
-                        <a href="#"><li id="" class="nav-drop-menu-elem">רכבים חדשים</li></a>
-                        <a href="#"><li id="" class="nav-drop-menu-elem">מבצעים</li></a>
-                        <a href="#"><li id="" class="nav-drop-menu-elem">חיפוש מתקדם</li></a>
-                    </ul>
-                </div>
-                <a href="about.html" id="nav-about-Btn" class="nav-btn easy-transition">אודות</a>
-                <a href="contact.html" id="nav-contact-Btn" class="nav-btn easy-transition">צור קשר</a>
-                <a href="regulation.html" id="nav-regulation-Btn" class="nav-btn easy-transition">תקנון</a>
-            </nav>
-            <div class="mobile-nav-holder">
-                <nav class="mobile-nav" data-display="flex" data-flex-direction="column">
                     <a href="index.html" id="nav-home-Btn" class="nav-btn easy-transition">בית</a>
                     <div id="" class="nav-drop-menu-holder easy-transition nav-btn" data-display="flex" data-align-items="start">
-                        <a href="#" id="nav-search-Btn" class="nav-drop-menu-title easy-transition">חפש רכב</a>
+                        <a href="search.html" id="nav-search-Btn" class="nav-drop-menu-title easy-transition">חפש רכב</a>
                         <ul id="" class="nav-drop-menu easy-transition">
                             <a href="#"><li id="" class="nav-drop-menu-elem">יד שניה</li></a>
                             <a href="#"><li id="" class="nav-drop-menu-elem">רכבים חדשים</li></a>
                             <a href="#"><li id="" class="nav-drop-menu-elem">מבצעים</li></a>
-                            <a href="#"><li id="" class="nav-drop-menu-elem">חיפוש מתקדם</li></a>
                         </ul>
                     </div>
                     <a href="about.html" id="nav-about-Btn" class="nav-btn easy-transition">אודות</a>
                     <a href="contact.html" id="nav-contact-Btn" class="nav-btn easy-transition">צור קשר</a>
                     <a href="regulation.html" id="nav-regulation-Btn" class="nav-btn easy-transition">תקנון</a>
                 </nav>
-            </div>
+                <div class="mobile-nav-holder">
+                    <nav class="mobile-nav" data-display="flex" data-flex-direction="column">
+                        <a href="index.html" id="nav-home-Btn" class="nav-btn easy-transition">בית</a>
+                        <div id="" class="nav-drop-menu-holder easy-transition nav-btn" data-display="flex" data-align-items="start">
+                            <a href="search.html" id="nav-search-Btn" class="nav-drop-menu-title easy-transition">חפש רכב</a>
+                            <ul id="" class="nav-drop-menu easy-transition">
+                                <a href="#"><li id="" class="nav-drop-menu-elem">יד שניה</li></a>
+                                <a href="#"><li id="" class="nav-drop-menu-elem">רכבים חדשים</li></a>
+                                <a href="#"><li id="" class="nav-drop-menu-elem">מבצעים</li></a>
+                            </ul>
+                        </div>
+                        <a href="about.html" id="nav-about-Btn" class="nav-btn easy-transition">אודות</a>
+                        <a href="contact.html" id="nav-contact-Btn" class="nav-btn easy-transition">צור קשר</a>
+                        <a href="regulation.html" id="nav-regulation-Btn" class="nav-btn easy-transition">תקנון</a>
+                    </nav>
+                </div>
         </div><!--/ END: header /-->
     </header>
     <main class="page-wrapper page-main">
         <h1 class="text-align-center">מצא את הרכב הבא שלך</h1>
-        <div id="search-resaults-holder" class="cars-container" data-dipsplay="flex">
+        <div id="search-filter" class="search-filter-holder">
+            <form id="search-filter-form" class="search-filter-form" method="post" data-display="flex" data-flex-direction="column">
+                <div id="search-filter-top-row" class="search-filter-row easy-transition" data-display="flex">
+                    <div class="search-filter-row-part easy-transition">
+                        <label>לפי יצרן</label><input name="manufacturer"/>
+                    </div>
+                    <div class="search-filter-row-part easy-transition">
+                        <label>לפי קטגוריה</label><input name="category"/>
+                    </div>
+                    <div class="search-filter-row-part easy-transition">
+                        <label>לפי מודל</label><input name="model"/>
+                    </div>
+                </div>
+                <div id="search-filter-bottom-row" class="search-filter-row easy-transition" data-display="flex">
+                    <div class="search-filter-row-part easy-transition" data-display="flex" data-justify-content="space-between" data-flex-wrap="nowrap">
+                        <div class="search-filter-row-inner-part easy-transition">
+                            <label>משנה</label><input type="number" name="from-year"/>
+                        </div>
+                        <div class="search-filter-row-inner-part easy-transition">
+                            <label>עד שנה</label><input type="number" name="to-year"/>
+                        </div>
+                    </div>
+                    <div class="search-filter-row-part easy-transition" data-display="flex" data-justify-content="space-between" data-flex-wrap="nowrap">
+                        <div class="search-filter-row-inner-part easy-transition">
+                            <label>מקילומטר</label><input type="number" name="from-mileage"/>
+                        </div>
+                        <div class="search-filter-row-inner-part easy-transition">
+                            <label>עד קילומטר</label><input type="number" name="to-mileage"/>
+                        </div>
+                    </div>
+                    <div class="search-filter-row-part easy-transition" data-display="flex" data-justify-content="space-between" data-flex-wrap="nowrap">
+                        <div class="search-filter-row-inner-part easy-transition">
+                            <label>ממחיר</label><input type="number" name="from-price"/>
+                        </div>
+                        <div class="search-filter-row-inner-part easy-transition">
+                            <label>עד מחיר</label><input type="number" name="to-price"/>
+                        </div>
+                    </div>
+                </div>
+                <div id="search-filter-bottom-row" class="search-filter-row easy-transition" data-display="flex">
+                    <button id="search-filter-submit-btn" class="main-btn form-submit-btn easy-transition" type="submit" name="filter-search-btn">חפש</button>
+                </div>
+            </form>
+        </div>
+        <h1 class="text-align-center">תוצאות</h1>
+        <div id="search-resaults-holder" class="cars-container" data-display="flex">
             
         </div>
         
@@ -99,7 +143,7 @@
         <div class="mid-foot">
             <div id="" class="page-wrapper footer-widgets-holder" data-display="flex" data-justify-content="space-between" data-align-items="start">
 
-                <form class="quick-contact-form-widget foot-widget-elem" data-display="flex" data-flex-direction="column" data-align-items="start" data-justify-content="start">
+                <form class="quick-contact-form-widget foot-widget-elem contact-form" data-display="flex" data-flex-direction="column" data-align-items="start" data-justify-content="start">
                     <h3 id="" class="widgets-title">צור קשר</h3>
                     <div id="" class="quick-contact-form-row" data-display="flex" data-justify-content="start" data-align-items="start">
                         <label>*</label><input type="text" name="name" placeholder="שם מלא" required />

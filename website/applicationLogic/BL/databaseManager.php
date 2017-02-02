@@ -22,20 +22,25 @@ class DBManager {
 	/*----/ Methodes */
 	//---/ USE PUBLIC METHODS HERE
 	public function InsertNewApply($i_UserApplyParams) {
-		$v_Response = $this->m_DbServlet->InsertCustomerApplyInput($i_UserApplyParams);
-		
-		if ($v_Response->GetFlag()) $v_Res = true;
-		else $v_Res = $v_Response->GetMsg();
-
-		return $v_Res;
+		return $this->execute($this->m_DbServlet->InsertCustomerApplyInput($i_UserApplyParams));
 	}
 
 	// /*----/ Getters & Setters */	
 	public function GetAllCars(){
-		return $this->m_DbServlet->GetAllCarsInDb(); 
+		return $this->execute($this->m_DbServlet->GetAllCarsInDb());
+	}
+
+	public function GetFilteredCars($i_FilterParams){
+		return $this->execute($this->m_DbServlet->GetFilteredCarsInDb($i_FilterParams));
 	}
 	
 	/*----/ AID Funcs */
 	//---/ USE PRIVATE FUNCS HERE IF NEEDED
+	private function execute($i_Response){
+		if ($i_Response->GetFlag()) 
+			return $i_Response->GetData();
+		else 
+			return $i_Response->GetMsg();
+	}
 }
 ?>

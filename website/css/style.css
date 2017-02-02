@@ -99,6 +99,11 @@ footer :-ms-input-placeholder { color: white; }
 footer p { color: white; }
 
 /*----/ IMAGES /----*/
+.img-contain {
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
 .img-center-align {
     background-position: top center;
     background-repeat: no-repeat;
@@ -121,6 +126,12 @@ footer p { color: white; }
 
 .logo-img {
     background-image: url('../imgs/logo.png');
+}
+
+.car-mini-img {
+    width: 100%;
+    height: 200px;
+    background-position: top right;
 }
 
 /*----/ BUTTONS /----*/
@@ -321,6 +332,8 @@ button {
 
 .mobile-menu-btn { display: none; }
 
+#search-filter-submit-btn { padding: 10px 50px; }
+
 /*----/ DIVISIONS & ELEMENTS /----*/
 .page-header {
     padding: 35px 0 8px;
@@ -507,3 +520,40 @@ main .inner-title {
 footer .output-message { color: white; }
 
 .error-message { color: red; }
+
+.car-mini-box {
+    width: 25%;
+    max-width: 350px;
+    min-width: 250px;
+}
+
+.car-mini-box:hover {
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.search-filter-holder {
+    margin: 50px auto;
+    background-color: rgba(0,0,0,0.1);
+}
+
+.search-filter-row {
+    width: 95%;
+    margin: 5px 0;
+}
+
+.search-filter-row-part {
+    width: 30%;
+    max-width: 350px;
+    min-width: 270px;
+}
+
+.search-filter-row-part input, .search-filter-row-part label {
+    width: 100%;
+}
+
+.search-filter-row-inner-part {
+    width: 45%;
+    max-width: 165px;
+    min-width: 130px;
+}

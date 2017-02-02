@@ -15,6 +15,7 @@ class DBServlet {
 	private	$m_DbName = '';
 	private $m_IsConnected = false;
 	private $m_Connection = NULL;
+	private $m_Response;
 	
 	/*----/ CTOR */
 	function DBServlet (){ 
@@ -22,142 +23,124 @@ class DBServlet {
 		$this->m_DbUserName = dbUser;
 		$this->m_DbPassword = dbPass;
 		$this->m_DbName = dbName;
+		
+		$this->m_Response = new Response();
 	}
 	
 	/*----/ Methodes */
-	
-	//--------------/ EXAMPLE METHOD (REMOVE AFTER YOU UNDERSTAND HOW IT WORKS AND START WORKING ON YOUR OWN CODE) /-------------------//
-	//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
-	
-	// public function IsValidUser($i_User){ 
-	// 	$v_Response = new Response();
-		
-	// 	try {
-	// 		$this->initConnection(); //---/ this line calls to a private method to connect the database (listed below)
-			
-	// 		$query = $this->connection->prepare("SELECT * FROM RegisterdUsersList WHERE UserName='" . $i_User->GetName() . "' AND UserPass='" . $i_User->GetPassword() . "' LIMIT 1"); //---/ pdo example usage to select relevant data from table
-	// 		$query->execute(); //---/ pdo execution statement for the line above
-	// 		$row = $query->fetch(); //---/ pdo retrive last executed data statement into 'row' element 
-			
-	// 		if ($row) { //---/ check if data was retrived
-	// 			//----/ do stuff here and get some response into an element...
-				
-	// 			$this->setConnectionStat(true); //---/ this line keeps connection to database open and flags if there is a cross request (only on request at a time is allowed)
-	// 			$v_Response->SetMsg(/*--/ element(str / obj / int / etc) /--*/); //---/ this line stores the resault 
-	// 			$v_Response->SetFlag(true); //---/ this line sets the response as a valid response (just like saying 'ok')
-	// 		}
-	// 	} catch (PDOException $e) { //---/ catchs pdo default exceptions (no need for custom messages here - use only default!)
-	// 		$this->setConnectionStat(false); //---/ this line closes the connection
-	// 		$v_Response->SetMsg($e); //---/ this line stores the exception message
-	// 		$v_Response->SetFlag(false); //---/ this line sets the response as an invalid response
-	// 	}
-		
-	// 	return $v_Response; //---/ return the response object
-	// }
-
 	public function InsertCustomerApplyInput($i_CostumerApply){
-		$v_Response = new Response();
-	
-		try {
-			$this->initConnection();
-
-			$query = $this->connection->prepare("INSERT INTO CustomerSupport(Full_Name, Phone, Mail, Date, Subject, Message) VALUES(:fullName, :phone, :mail, :date, :subject, :msg)"); //---/ pdo example usage to select relevant data from table
-			$v_res = $query->execute(array(':fullName' => $i_CostumerApply->fullName, ':phone' => $i_CostumerApply->phone, ':mail' => $i_CostumerApply->mail, ':date' => $this->GetCurrentTime(), ':subject' => $i_CostumerApply->subject, ':msg' => $i_CostumerApply->message));	
-
-			if ($v_res) {
-				$v_Response->SetMsg($v_res);
-				$v_Response->SetFlag(true);
-			}
-		} catch(PDOException $e) {
-			$this->setConnectionStat(false); 
-			$v_Response->SetMsg($e); 
-			$v_Response->SetFlag(false); 
-		}
-
-		return $v_Response;
+		return $this->processOperation("INSERT INTO CustomerSupport(Full_Name, Phone, Mail, Date, Subject, Message) VALUES(".$i_CostumerApply->fullName.", ".$i_CostumerApply->phone.", ".$i_CostumerApply->mail.", ".$this->GetCurrentTime().", ".$i_CostumerApply->subject.", ".$i_CostumerApply->message.")");
 	}
-
-
-// 	public function FetchCarsDetailsFromTable($i_Type){
-	
-// 	$v_response = new Response();
-	
-// 	try {
-// 		$this->initConnection();
-// 	// 		$query = $this->connection->prepare("SELECT * FROM RegisterdUsersList WHERE UserName='" . $i_User->GetName() . "' AND UserPass='" . $i_User->GetPassword() . "' LIMIT 1"); //---/ pdo example usage to select relevant data from table
-
-// 		$query = $this->connection->prepare("SELECT * FROM Cars WHERE Full_Name = '" . $i_Type . "' OR phone = '". $i_Type . "' OR //---/ pdo example usage to select relevant data from table
-// 		$v_res = $query->execute(array(':fullName' => $i_CostumerApply->fullName, ':phone' => $i_CostumerApply->phone, ':mail' => $i_CostumerApply->mail, ':date' => $i_CostumerApply->date, ':subject' => $i_CostumerApply->subject, ':msg' => $i_CostumerApply->message));
-	
-// 		if ($v_res) {
-// 			$v_response->SetMsg($v_res);
-// 			v_Response->SetFlag(true);			
-// 		}
-// 	} catch(PDOException $e) {
-// 		$this->setConnectionStat(false); 
-// 		$v_Response->SetMsg($e); 
-// 		$v_Response->SetFlag(false); 
-// 	}
-
-// 	return $v_response;
-// }
-
-
 	
 	/*----/ Getters & Setters */
-	public function SetConnectionStat($bool){ //----/ THIS IS A MUST - DONT MODIFY
-		$this->m_IsConnected = $bool;
-	}
-	
 	public function GetCurrentTime(){
 		return date('y-m-d H:i:s', time());
 	}
 
 	public function GetAllCarsInDb(){
-		$v_Response = new Response();
+		return $this->processOperation("SELECT * FROM Cars");
+	}
 	
-		try {
-			$this->initConnection();
+	public function GetFilteredCarsInDb($i_FilterParams){
+		$fromYear = ($i_FilterParams->fromYear == "")? 0 : $i_FilterParams->fromYear;
+		$toYear = ($i_FilterParams->toYear == "")? 'MAX(Year)' : $i_FilterParams->toYear;
+		
+		$fromMileage = ($i_FilterParams->fromMileage == "")? 0 : $i_FilterParams->fromMileage;
+		$toMileage = ($i_FilterParams->toMileage == "")? 'MAX(Mileage)' : $i_FilterParams->toMileage;
+		
+		$fromPrice = ($i_FilterParams->fromPrice == "")? 0 : $i_FilterParams->fromPrice;
+		$toPrice = ($i_FilterParams->toPrice == "")? 'MAX(Price)' : $i_FilterParams->toPrice;
+		
+		$manufacturerQuery = ($i_FilterParams->manufacturer == "")? ' >= 0 ' : '="'.$i_FilterParams->manufacturer.'" ';
+		$categoryQuery = ($i_FilterParams->category == "")? ' >= 0 ' : '="'.$i_FilterParams->category.'" ';
+		$modelQuery = ($i_FilterParams->model == "")? ' >= 0 ' : '="'.$i_FilterParams->model.'" ';
+		$yearQuery = 'BETWEEN '.$fromYear.' AND '.$toYear;
+		$mileageQuery = 'BETWEEN '.$fromMileage.' AND '.$toMileage;
+		$priceQuery = 'BETWEEN '.$fromPrice.' AND '.$toPrice;
 
-			$query = $this->connection->prepare("SELECT * FROM Cars");
-			$query->execute();	
-			$v_res = $query->fetchAll();
-
-			if ($v_res) {
-				$v_Response->SetMsg('successful');
-				$v_Response->SetFlag(true);
-
-				return $v_res;
-			}
-		} catch(PDOException $e) {
-			$this->setConnectionStat(false); 
-			$v_Response->SetMsg($e); 
-			$v_Response->SetFlag(false); 
-		}
-
-		return $v_Response;
+		$queryBase = 'SELECT * FROM Cars WHERE (Manufacturer'.$manufacturerQuery.'AND Category'.$categoryQuery.'AND Model'.$modelQuery.'AND (Year '.$yearQuery.') AND (Mileage '.$mileageQuery.') AND (Price '.$priceQuery.'))';
+		
+		return $this->processOperation($queryBase);
 	}
 
 	/*----/ AID Funcs */
-	// private function getSearchRange($i_StartRange, $i_EndRange){
-		// TODO
-	// }
+	private function processOperation($i_mysqlQuery){
+		try {
+			$this->initConnection();
 
-	public function IsConected(){ //----/ THIS IS A MUST - DONT MODIFY
+			$query = $this->m_Connection->prepare($i_mysqlQuery);
+			$query->execute();	
+			$v_res = $query->fetchAll();
+
+			if (!$v_res) throw new PDOException("Error Processing Request", 1);
+			else { 
+				$this->m_Response->SetMsg('successful');
+				$this->m_Response->SetFlag(true);
+				$this->m_Response->SetData($this->generateValidResaultResponse($v_res));
+			}
+		} catch(PDOException $e) {
+			$this->setConnectionStat(false); 
+			$this->m_Response->SetMsg($e->getMessage()); 
+			$this->m_Response->SetFlag(false); 
+			$this->m_Response->SetData($e);
+		}
+
+		return $this->m_Response;
+	}
+
+	private function generateValidResaultResponse($i_queryValue){
+		$v_res = true;
+
+		if (is_array($i_queryValue)) {
+			$convertedArray = array();
+			foreach($i_queryValue as $key => $val){
+				$v_currConvertedVal = array(
+					'id' => $val['Cars.ID'],
+					'manufacturer' => $val['Cars.Manufacturer'],
+					'category' => $val['Cars.Category'],
+					'model' => $val['Cars.Model'],
+					'year' => $val['Cars.Year'],
+					'color' => $val['Cars.Color'],
+					'mileage' => $val['Cars.Mileage'],
+					'status' => $val['Cars.Car_status'],
+					'sale' => $val['Cars.Type_of_sale'],
+					'price' => $val['Cars.Price'],
+					'image' => $val['Cars.Image']
+				);
+
+				array_push($convertedArray, $v_currConvertedVal);
+			}
+
+			$v_res = array(
+				'TotalResaultsNumber' => count($i_queryValue),
+				'Data' => $convertedArray
+			);
+		} 
+
+		return $v_res;
+	}
+
+	private function isConected(){ //----/ THIS IS A MUST - DONT MODIFY
 		return $this->m_IsConnected;
 	}
 	
+	private function setConnectionStat($bool){ //----/ THIS IS A MUST - DONT MODIFY
+		$this->m_IsConnected = $bool;
+	}
+
 	private function initConnection() { //----/ THIS IS A MUST - DONT MODIFY
 		try {
-			$this->connection = new PDO("mysql:host=".$this->m_DbHost.";dbname=".$this->m_DbName, $this->m_DbUserName, $this->m_DbPassword);
-			$this->connection-> exec("SET NAMES 'utf8';");
-			$this->connection-> setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
-			$this->connection-> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			$this->connection-> setAttribute(PDO::ATTR_EMULATE_PREPARES, 1);
-			$this->connection-> setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, true);
+			$this->m_Connection = new PDO("mysql:host=".$this->m_DbHost.";dbname=".$this->m_DbName, $this->m_DbUserName, $this->m_DbPassword);
+			$this->m_Connection-> exec("SET NAMES 'utf8';");
+			$this->m_Connection-> setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
+			$this->m_Connection-> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$this->m_Connection-> setAttribute(PDO::ATTR_EMULATE_PREPARES, 1);
+			$this->m_Connection-> setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, true);
 			
 		} catch(PDOException $e) {
-			$this->response->setMsg("ERROR, Could not connect to DB: ".$e->getMessage());
+			$this->m_Response->SetMsg("ERROR, Could not connect to DB: ".$e->getMessage());
+			$this->m_Response->SetFlag(false);
+			$this->m_Response->SetData($e);
 			exit();
 		}		
 	}

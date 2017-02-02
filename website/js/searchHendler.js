@@ -13,8 +13,8 @@ Run(function () {
     //---/ Process
     myCaller.getAllSearchResaults(mySmallCarResaultsBuilder.getParentSelector(), true, function(i_response){
         console.log(i_response);
-        mySmallCarResaultsBuilder.setResaultArr(i_response);
-        //mySearchResaultsDirector.construct(mySmallCarResaultsBuilder);
+        mySmallCarResaultsBuilder.setResaultArr(i_response.Data);
+        mySearchResaultsDirector.construct(mySmallCarResaultsBuilder);
     });
     
 

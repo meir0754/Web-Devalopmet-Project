@@ -10,7 +10,8 @@ include "databaseManager.php"; //---/ include the manager class
 	$allowedRequsets = array(
 						"InsertNewApply",
 						"SendMail",
-						"GetAllCars"
+						"GetAllCars",
+						"GetFilteredCars"
 						);    
 // =======================================================================
 

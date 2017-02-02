@@ -38,7 +38,7 @@
 
 $(function () {
     var k_InvalidMsg = 'הערך אינו תקין!',
-        _Elements = ['input', 'select'];
+        _Elements = ['.contact-form input', '.contact-form select'];
 
     $.each(_Elements, function (key, val) {
         InvalidInputHelper($(val), {

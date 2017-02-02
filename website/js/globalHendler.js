@@ -2,6 +2,60 @@
 var theGangSiteHomePageAnimationFlag = {'hasVisited': true}; //---/ flags if site is in browser cash (no need to preload twice)
 
 //---/ Aid funcs
+function SubmitFilterForm(i_this, i_event){
+    i_event.preventDefault();
+    myPresentor.SetPartner('#' + $(i_this).attr('id'));
+    var o_Requset = {
+            "method": "GetFilteredCars",
+            "params": {
+                "manufacturer": $('input[name="manufacturer"]').val(),
+                "category": $('input[name="category"]').val(),
+                "model": $('input[name="model"]').val(),
+                "fromYear": $('input[name="from-year"]').val(),
+                "toYear": $('input[name="to-year"]').val(),
+                "fromMileage": $('input[name="from-mileage"]').val(),
+                "toMileage": $('input[name="to-mileage"]').val(),
+                "fromPrice": $('input[name="from-price"]').val(),
+                "toPrice": $('input[name="to-price"]').val()
+            },
+            "returntype": "json"
+        };
+
+    myCaller.requestFilteredResaults(o_Requset, myPresentor.GetCurrMsgBox(), true, function(i_response){
+        if (!i_response) myPresentor.RespondBaseErrorMsg();
+        else if (i_response) myPresentor.RespondValidMsg('פנייתך התקבלה בהצלחה. נציג יצור איתך קשר בהקדם.'); 
+        else if (i_response.valid == undefined || i_response.valid == null || i_response.msg == undefined || i_response.msg == null || i_response.msg == '') myPresentor.RespondInternalError(i_response);
+        else if (i_response.msg.indexOf('mail') != -1) myPresentor.RespondErrorMsg('כתובת המייל אינה תקינה');
+        else if (i_response.msg.indexOf('phone') != -1) myPresentor.RespondErrorMsg('מספר הטלפון אינו תקין');
+        else myPresentor.RespondBaseErrorMsg();
+    });
+}
+
+function SubmitContactForm(i_this, i_event){
+    i_event.preventDefault();
+    myPresentor.SetPartner('#' + $(i_this).attr('id'));
+    var o_Requset = {
+            "method": "InsertNewApply",
+            "params": {
+                "fullName": $('input[name="full_name"]').val(),
+                "phone": $('input[name="phone_number"]').val(),
+                "mail": $('input[name="email"]').val(),
+                "subject": $('select[name="subject"]').val(),
+                "message": $('textarea[name="message"]').val()
+            },
+            "returntype": "json"
+        };
+
+    myCaller.sendCustomerApply(o_Requset, myPresentor.GetCurrMsgBox(), true, function(i_response){
+        if (!i_response) myPresentor.RespondBaseErrorMsg();
+        else if (i_response) myPresentor.RespondValidMsg('פנייתך התקבלה בהצלחה. נציג יצור איתך קשר בהקדם.'); 
+        else if (i_response.valid == undefined || i_response.valid == null || i_response.msg == undefined || i_response.msg == null || i_response.msg == '') myPresentor.RespondInternalError(i_response);
+        else if (i_response.msg.indexOf('mail') != -1) myPresentor.RespondErrorMsg('כתובת המייל אינה תקינה');
+        else if (i_response.msg.indexOf('phone') != -1) myPresentor.RespondErrorMsg('מספר הטלפון אינו תקין');
+        else myPresentor.RespondBaseErrorMsg();
+    });
+}
+
 function matchFeilds(i_field_1, i_field_2) { 
     return (i_field_1 === i_field_2) ? true : false; 
 }
@@ -72,28 +126,8 @@ function Run(o_callback){
             });
 
             $('form').submit(function(e){
-                e.preventDefault();
-                myPresentor.SetPartner('#' + $(this).attr('id'));
-                var o_Requset = {
-                        "method": "InsertNewApply",
-                        "params": {
-                            "fullName": $('input[name="full_name"]').val(),
-                            "phone": $('input[name="phone_number"]').val(),
-                            "mail": $('input[name="email"]').val(),
-                            "subject": $('select[name="subject"]').val(),
-                            "message": $('textarea[name="message"]').val()
-                        },
-                        "returntype": "json"
-                    };
-                
-                myCaller.sendCustomerApply(o_Requset, myPresentor.GetCurrMsgBox(), true, function(i_response){
-                    if (!i_response) myPresentor.RespondBaseErrorMsg();
-                    else if (i_response) myPresentor.RespondValidMsg('פנייתך התקבלה בהצלחה. נציג יצור איתך קשר בהקדם.'); 
-                    else if (i_response.valid == undefined || i_response.valid == null || i_response.msg == undefined || i_response.msg == null || i_response.msg == '') myPresentor.RespondInternalError(i_response);
-                    else if (i_response.msg.indexOf('mail') != -1) myPresentor.RespondErrorMsg('כתובת המייל אינה תקינה');
-                    else if (i_response.msg.indexOf('phone') != -1) myPresentor.RespondErrorMsg('מספר הטלפון אינו תקין');
-                    else myPresentor.RespondBaseErrorMsg();
-                });
+                if ($(this).attr('id') === 'search-filter-form') SubmitFilterForm(this, e); 
+                else SubmitContactForm(this, e);
             });
 
             if (typeof o_callback === 'function' && o_callback != 'undefined') o_callback();

@@ -11,6 +11,30 @@
     }
 
     #home-page .intro-img { min-height: 350px; }
+
+    .car-mini-box {
+        width: 100%;
+        max-width: none;
+        min-width: 0;
+        text-align: center;
+    }
+
+    .car-mini-img { 
+        height: 300px; 
+        background-position: top center !important;
+    }
+
+    .search-filter-row-part {
+        width: 100%;
+        max-width: none;
+        min-width: 0;
+    }
+
+    .search-filter-row-inner-part {
+        width: 45%;
+        max-width: none;
+        min-width: 0;
+    }
 }
 @media screen and (max-width: 768px) {
 	header > .top-head > aside, .top-foot > .social-btns-holder, .footer-widgets-holder, .foot-widget-elem, .foot-widget-elem > * {

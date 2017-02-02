@@ -26,22 +26,34 @@ function toggleLoadAnimation(i_obj) { //---/ make sure css is hooked aswell!
 	}
 }
 
+function isValidApplyHelper(i_FilterApply){
+	var v_res = {
+		'valid': true,
+		'msg': ''
+	};
+
+	if (i_FilterApply == undefined || i_FilterApply == '' || i_FilterApply == null) {
+		v_res.valid = false;
+		v_res.msg = 'Object is not defined.';
+	} else if (i_FilterApply.method == '' || i_FilterApply.method == null) {
+		v_res.valid = false;
+		v_res.msg = 'Object method requset is not defined.';
+	} else if (i_FilterApply.params == undefined  || i_FilterApply.params == '' || i_FilterApply.params == null) {
+		v_res.valid = false;
+		v_res.msg = 'Object params is not defined.';
+	} 
+
+	if (!v_res.valid) console.log(v_res.msg);
+	return v_res;
+}
+
 function isValidFormApplyHelper(i_FormApply){
 	var v_res = {
 		'valid': true,
 		'msg': ''
 	};
 
-	if (i_FormApply == undefined || i_FormApply == '' || i_FormApply == null) {
-		v_res.valid = false;
-		v_res.msg = 'Object is not defined.';
-	} else if (i_FormApply.method == '' || i_FormApply.method == null) {
-		v_res.valid = false;
-		v_res.msg = 'Object method requset is not defined.';
-	} else if (i_FormApply.params == undefined  || i_FormApply.params == '' || i_FormApply.params == null) {
-		v_res.valid = false;
-		v_res.msg = 'Object params is not defined.';
-	} else if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(i_FormApply.params.mail))) {
+	if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(i_FormApply.params.mail))) {
 		v_res.valid = false;
 		v_res.msg = 'mail error';
 	} else if (!(/^(\d[\s-]?)?[\(\[\s-]{0,2}?\d{2}[\)\]\s-]{0,2}?\d{3}[\s-]?\d{4}$/i.test(i_FormApply.params.phone))) {
@@ -69,7 +81,9 @@ AIDLib.Caller = (function(){
 		
 		$.post(this.m_pathToCall, JSON.stringify(i_objToSend), function(i_response){
 			this.m_validResponse = true;
-			if (Object.prototype.toString.call(i_response) === '[object Array]') this.m_response = i_response;
+			var _responseType = Object.prototype.toString.call(i_response);
+
+			if (_responseType === '[object Array]' || _responseType === '[object Object]') this.m_response = i_response;
 			else this.m_response = JSON.parse(i_response);
 		}).fail(function (jqXHR, textStatus, errorThrown) {
 			this.m_validResponse = false;
@@ -81,15 +95,19 @@ AIDLib.Caller = (function(){
 		});
 	}
 
-	Caller.prototype.isValidFormApply = function(i_FormApply){
-		return isValidFormApplyHelper(i_FormApply);
-	}
-
 	Caller.prototype.sendCustomerApply = function(i_customerApply, i_responseBox, i_toAnimateLoader, o_callback) {
-		var _isValidForm = this.isValidFormApply(i_customerApply);
+		var _isValidApply = isValidApplyHelper(i_customerApply);
+			_isValidForm = isValidFormApplyHelper(i_customerApply);
 		
-		if (_isValidForm.valid) this.makeCall(i_customerApply, i_responseBox, i_toAnimateLoader, o_callback);
+		if (_isValidForm.valid && _isValidApply.valid) this.makeCall(i_customerApply, i_responseBox, i_toAnimateLoader, o_callback);
 		else o_callback(_isValidForm);
+	}
+	
+	Caller.prototype.requestFilteredResaults = function(i_filterApply, i_responseBox, i_toAnimateLoader, o_callback) {
+		var _isValidApply = isValidApplyHelper(i_filterApply);
+		
+		if (_isValidApply.valid) this.makeCall(i_filterApply, i_responseBox, i_toAnimateLoader, o_callback);
+		else o_callback(_isValidApply);
 	}
 
 	//---/ Getters & Setters
@@ -190,25 +208,28 @@ AIDLib.SmallResaultBuilder = (function(){
 
 	function SmallResaultBuilder(i_parent){
 		//--/ 0 = id, 1 = img, 2 = item name, 3 = price
-		this.m_defaultSmallResaultTemplate = '<div id="car-{0}" class="car-box" data-display="flex" data-flex-dirdction="column"><div class="car-mini-img">{1}</div><p class="car-box-model">{2}</p><p class="car-box-price">החל מ-{3} &#8362;</p></div>';
+		this.m_defaultSmallResaultTemplate = '<div id="car-{0}" class="car-mini-box easy-transition" data-display="flex" data-flex-dirdction="column"><div class="car-mini-img img-contain" style="background-image:url({1});"></div><p class="car-box-model">{2}</p><p class="car-box-price">החל מ-{3} &#8362;</p></div>';
 		this.m_parent = (i_parent != '' || i_parent != undefined) ? i_parent : '';
 		m_searchResaultsBuilder.call(this, this.m_parent, this.m_defaultSmallResaultTemplate);
 	}
 	
+	inherit(m_searchResaultsBuilder, SmallResaultBuilder);
+	
 	SmallResaultBuilder.prototype.buildResaultBox = function(){
-		if (Object.prototype.toString.call(this.m_resaultsArr) != '[object Array]' || (Object.prototype.toString.call(this.m_resaultsArr) === '[object Array]' && this.m_resaultsArr.length == 0) || this.m_parent === '') console.log('missing parameters on search builder.');
+		var _typeOfResault = Object.prototype.toString.call(this.m_resaultsArr);
+
+		if (_typeOfResault != '[object Array]' || (_typeOfResault === '[object Array]' && this.m_resaultsArr.length == 0) || this.m_parent === '') console.log('missing parameters on search builder.');
 		else {
-			var _res = '';
+			var _res = '',
+				_template = this.m_resaultTemplate;
 
 			$.each(this.m_resaultsArr, function(key, car){
-				_res += this.m_resaultTemplate.format([car.id, car.image, car.details, car.price]);
+				_res += _template.format([car.id, car.image, car.manufacturer + ' ' + car.model, car.price]);
 			});
 			
 			$(this.m_parent).append(_res);
 		}
 	}
-
-	inherit(m_searchResaultsBuilder, SmallResaultBuilder);
 
 	return SmallResaultBuilder;
 })();
@@ -222,13 +243,13 @@ AIDLib.BigResaultBuilder = (function(){
 		this.m_parent = (i_parent != '' || i_parent != undefined) ? i_parent : '';
 		m_searchResaultsBuilder.call(this, this.m_parent, this.m_defaultBigResaultTemplate);
 	}
+
+	inherit(m_searchResaultsBuilder, BigResaultBuilder);
 	
 	BigResaultBuilder.prototype.buildResaultBox = function(i_arr){
 		if (Object.prototype.toString.call(this.m_resaultsArr) != '[object Array]' || (Object.prototype.toString.call(this.m_resaultsArr) === '[object Array]' && this.m_resaultsArr.length == 0) || this.m_parent === '') console.log('missing parameters on search builder.');
 		else $(this.m_parent).append(this.m_resaultTemplate.format(i_arr)); //TODO: make build accomodations here
 	}
-
-	inherit(m_searchResaultsBuilder, BigResaultBuilder);
 
 	return BigResaultBuilder;
 })();
