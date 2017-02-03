@@ -42,23 +42,24 @@ class DBServlet {
 	}
 	
 	public function GetFilteredCarsInDb($i_FilterParams){
+		//----/ from selectors
 		$fromYear = ($i_FilterParams->fromYear == "")? 0 : $i_FilterParams->fromYear;
-		$toYear = ($i_FilterParams->toYear == "")? 'MAX(Year)' : $i_FilterParams->toYear;
-		
 		$fromMileage = ($i_FilterParams->fromMileage == "")? 0 : $i_FilterParams->fromMileage;
-		$toMileage = ($i_FilterParams->toMileage == "")? 'MAX(Mileage)' : $i_FilterParams->toMileage;
-		
 		$fromPrice = ($i_FilterParams->fromPrice == "")? 0 : $i_FilterParams->fromPrice;
-		$toPrice = ($i_FilterParams->toPrice == "")? 'MAX(Price)' : $i_FilterParams->toPrice;
-		
-		$manufacturerQuery = ($i_FilterParams->manufacturer == "")? ' >= 0 ' : '="'.$i_FilterParams->manufacturer.'" ';
-		$categoryQuery = ($i_FilterParams->category == "")? ' >= 0 ' : '="'.$i_FilterParams->category.'" ';
-		$modelQuery = ($i_FilterParams->model == "")? ' >= 0 ' : '="'.$i_FilterParams->model.'" ';
-		$yearQuery = 'BETWEEN '.$fromYear.' AND '.$toYear;
-		$mileageQuery = 'BETWEEN '.$fromMileage.' AND '.$toMileage;
-		$priceQuery = 'BETWEEN '.$fromPrice.' AND '.$toPrice;
+		//----/ to selectors
+		$toYear = ($i_FilterParams->toYear == "")? '(SELECT MAX(Year) FROM Cars)' : $i_FilterParams->toYear;
+		$toMileage = ($i_FilterParams->toMileage == "")? '(SELECT MAX(Mileage) FROM Cars)' : $i_FilterParams->toMileage;
+		$toPrice = ($i_FilterParams->toPrice == "")? '(SELECT MAX(Price) FROM Cars)' : $i_FilterParams->toPrice;
+		//----/ any selectors
+		$manufacturerQuery = ($i_FilterParams->manufacturer == "")? '(Manufacturer >= 0)' : '(Manufacturer="'.$i_FilterParams->manufacturer.'")';
+		$categoryQuery = ($i_FilterParams->category == "")? '(Category >= 0)' : '(Category="'.$i_FilterParams->category.'")';
+		$modelQuery = ($i_FilterParams->model == "")? '(Model >= 0)' : '(Model="'.$i_FilterParams->model.'")';
+		//----/ agrigate queries
+		$yearQuery = '(Year BETWEEN '.$fromYear.' AND '.$toYear.')';
+		$mileageQuery = '(Mileage BETWEEN '.$fromMileage.' AND '.$toMileage.')';
+		$priceQuery = '(Price BETWEEN '.$fromPrice.' AND '.$toPrice.')';
 
-		$queryBase = 'SELECT * FROM Cars WHERE (Manufacturer'.$manufacturerQuery.'AND Category'.$categoryQuery.'AND Model'.$modelQuery.'AND (Year '.$yearQuery.') AND (Mileage '.$mileageQuery.') AND (Price '.$priceQuery.'))';
+		$queryBase = 'SELECT * FROM Cars WHERE ('.$manufacturerQuery.' AND '.$categoryQuery.' AND '.$modelQuery.' AND '.$yearQuery.' AND '.$mileageQuery.' AND '.$priceQuery.')';
 		
 		return $this->processOperation($queryBase);
 	}

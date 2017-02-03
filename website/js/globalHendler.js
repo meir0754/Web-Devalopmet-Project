@@ -21,13 +21,12 @@ function SubmitFilterForm(i_this, i_event){
             "returntype": "json"
         };
 
-    myCaller.requestFilteredResaults(o_Requset, myPresentor.GetCurrMsgBox(), true, function(i_response){
-        if (!i_response) myPresentor.RespondBaseErrorMsg();
-        else if (i_response) myPresentor.RespondValidMsg('פנייתך התקבלה בהצלחה. נציג יצור איתך קשר בהקדם.'); 
-        else if (i_response.valid == undefined || i_response.valid == null || i_response.msg == undefined || i_response.msg == null || i_response.msg == '') myPresentor.RespondInternalError(i_response);
-        else if (i_response.msg.indexOf('mail') != -1) myPresentor.RespondErrorMsg('כתובת המייל אינה תקינה');
-        else if (i_response.msg.indexOf('phone') != -1) myPresentor.RespondErrorMsg('מספר הטלפון אינו תקין');
-        else myPresentor.RespondBaseErrorMsg();
+    myCaller.requestFilteredResaults(o_Requset, 'main .output-message', true, function(i_response){
+        if (i_response.Data.length == 0) myPresentor.RespondNoResaultsMsg();
+        else {
+            mySmallCarResaultsBuilder.setResaultArr(i_response.Data);
+            mySearchResaultsDirector.construct(mySmallCarResaultsBuilder);
+        }
     });
 }
 

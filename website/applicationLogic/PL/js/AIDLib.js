@@ -9,7 +9,7 @@ function inherit(i_Base, i_Derived) {
 }
 
 function toggleLoadAnimation(i_obj) { //---/ make sure css is hooked aswell!
-	if (i_obj.length != undefined) {
+	if (i_obj.length != undefined && $(i_obj).length > 0) {
 		var _loaderClass = 'loader',
 			_loaderObj = '<div class="'+ _loaderClass +'"></div>',
 			_existingObj = $(i_obj).find('.'+_loaderClass);
@@ -137,6 +137,7 @@ AIDLib.MessagePresentor = (function(){
 		this.m_messageHolder = '.output-message';
 		this.m_errorMessageClass = 'error-message';
 		this.m_baseErrorMsg = 'ארעה שגיאה. אנא נסה שנית מאוחר יותר.';
+		this.m_baseNoResaultsMsg = 'לא נמצאו תוצאות מתאימות. אנא נסה שנית.';
 		this.m_responseMsg = '';
 	}
 
@@ -166,6 +167,10 @@ AIDLib.MessagePresentor = (function(){
 	MessagePresentor.prototype.RespondInternalError = function(i_msg){
 		console.log(i_msg);
 		this.RespondBaseErrorMsg();
+	}
+	
+	MessagePresentor.prototype.RespondNoResaultsMsg = function(){
+		return this.m_baseNoResaultsMsg;
 	}
 
 	return MessagePresentor;
@@ -198,6 +203,11 @@ AIDLib.SearchResaultsBuilder = (function(){
 
 	SearchResaultsBuilder.prototype.getParentSelector = function(){
 		return this.m_parent;
+	}
+	
+	SearchResaultsBuilder.prototype.clearResaultsPan = function(o_callback){
+		$(this.m_parent).text('');
+		if (typeof o_callback === 'function' && o_callback != 'undefined')  o_callback();
 	}
 			
 	return SearchResaultsBuilder;
@@ -238,8 +248,8 @@ AIDLib.BigResaultBuilder = (function(){
 	var m_searchResaultsBuilder = AIDLib.SearchResaultsBuilder;
 
 	function BigResaultBuilder(i_parent){
-		//--/ 0 = id, 1 = 
-		this.m_defaultBigResaultTemplate = '';
+		//--/ 0=id, 1=img, 2=manufacturer, 3=model, 4=category, 5=year, 6=color, 7=mileage, 8=sale, 9=status, 10=price
+		this.m_defaultBigResaultTemplate = '<div class="lightbox-data-holder lightbox-body-part"><div id="{0}" class="big-resault" data-display="flex" data-flex-direction="column"><div class="big-resault-img img-center-align" style="background-image: url({1});"></div><div class="big-car-resault-prim-data" data-display="flex" data-flex-wrap="nowrap"><div class="big-car-resault-prim-data-part" data-display="flex" data-flex-direction="column"><div class="big-car-resault-prim-data-part-item"><b>יצרן: </b>{2}</div><div class="big-car-resault-prim-data-part-item"><b>דגם: </b>{3}</div><div class="big-car-resault-prim-data-part-item"><b>קטגוריה: </b>{4}</div><div class="big-car-resault-prim-data-part-item"><b>שנה: </b>{5}</div></div><div class="big-car-resault-prim-data-part" data-display="flex" data-flex-direction="column"><div class="big-car-resault-prim-data-part-item"><b>צבע: </b>{6}</div><div class="big-car-resault-prim-data-part-item"><b>קילומטרז: </b>{7}</div><div class="big-car-resault-prim-data-part-item"><b>מכירה: </b>{8}</div><div class="big-car-resault-prim-data-part-item"><b>יד: </b>{9}</div></div></div><div class="big-car-resault-prim-data-part"><b>החל ממחיר: </b>{10}</div></div></div>';
 		this.m_parent = (i_parent != '' || i_parent != undefined) ? i_parent : '';
 		m_searchResaultsBuilder.call(this, this.m_parent, this.m_defaultBigResaultTemplate);
 	}
@@ -258,6 +268,7 @@ AIDLib.SearchResaultsDirector = (function(){
 	function SearchResaultsDirector(){ }
 
 	SearchResaultsDirector.prototype.construct = function(i_builder){
+		i_builder.clearResaultsPan();
 		i_builder.buildResaultBox();
 	}
 

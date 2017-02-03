@@ -1,4 +1,4 @@
-//----/ JQ HENDLER /----/
+//----/ JQ HENDLER /----//
 Run(function(){
     //---/ Globe
 

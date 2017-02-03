@@ -29,6 +29,16 @@
     <!--/ Helpers /-->
 </head>
 <body>
+    <div id="big-search-resault" class="lightbox-holder easy-transition">
+        <div class="lightbox easy-transition" data-display="flex">
+            <div class="lightbox-main-body" data-display="flex" data-flex-direction="column">
+                <div class="close-lightbox-btn-holder lightbox-body-part">
+                    <button class="close-lightbox-btn">X</button>
+                </div>
+                <div class="lightbox-data-holder lightbox-body-part"></div>
+            </div>
+        </div>
+    </div>
     <header class="page-header" data-display="flex" data-flex-direction="column">
         <div class="top-head page-wrapper" data-display="flex" data-align-items="start" data-justify-content="space-between">
             <aside class="logo-holder" data-display="flex" data-justify-content="start">
@@ -124,6 +134,7 @@
             </form>
         </div>
         <h1 class="text-align-center">תוצאות</h1>
+        <div class="output-message easy-transition"></div>
         <div id="search-resaults-holder" class="cars-container" data-display="flex">
             
         </div>
@@ -143,10 +154,10 @@
         <div class="mid-foot">
             <div id="" class="page-wrapper footer-widgets-holder" data-display="flex" data-justify-content="space-between" data-align-items="start">
 
-                <form class="quick-contact-form-widget foot-widget-elem contact-form" data-display="flex" data-flex-direction="column" data-align-items="start" data-justify-content="start">
+                <form id="foot-widget-form" class="quick-contact-form-widget foot-widget-elem contact-form" data-display="flex" data-flex-direction="column" data-align-items="start" data-justify-content="start">
                     <h3 id="" class="widgets-title">צור קשר</h3>
                     <div id="" class="quick-contact-form-row" data-display="flex" data-justify-content="start" data-align-items="start">
-                        <label>*</label><input type="text" name="name" placeholder="שם מלא" required />
+                        <label>*</label><input type="text" name="name" maxlength="20" placeholder="שם מלא" required />
                     </div>
                     <div id="" class="quick-contact-form-row" data-display="flex" data-justify-content="start" data-align-items="start">
                         <label>*</label><input type="text" name="phone" placeholder="טלפון" required />
@@ -158,6 +169,7 @@
                         <label>*</label><textarea type="text" name="message" placeholder="הודעה" required></textarea>
                     </div>
                     <button type="submit" class="main-btn form-submit-btn easy-transition">שלח</button>
+                    <div class="output-message easy-transition"></div>
                 </form>
                 <div id="" class="foot-info-container foot-widget-elem">
                     <h3 id="" class="widgets-title">פרטים</h3>
