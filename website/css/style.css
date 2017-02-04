@@ -484,7 +484,7 @@ main .form-input-holder {
 
 select { cursor: pointer; }
 
-main input, main select {
+main input:not([type="checkbox"]), main select {
     height: 40px;
     margin: 5px 0;
 }
@@ -496,6 +496,10 @@ main .form-input-holder input, main .form-input-holder select, main textarea {
 
 main .form-input-holder input, main textarea {
     padding: 0 5px;
+}
+
+.checkbox-holder {
+    margin-right: 2%;
 }
 
 main textarea { 
@@ -549,7 +553,7 @@ footer .output-message { color: white; }
     min-width: 270px;
 }
 
-.search-filter-row-part input, .search-filter-row-part label {
+.search-filter-row-part input:not([type="checkbox"]), .search-filter-row-part select, .search-filter-row-part label {
     width: 100%;
 }
 

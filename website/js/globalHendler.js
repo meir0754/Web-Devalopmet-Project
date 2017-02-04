@@ -4,26 +4,32 @@ var theGangSiteHomePageAnimationFlag = {'hasVisited': true}; //---/ flags if sit
 //---/ Aid funcs
 function SubmitFilterForm(i_this, i_event){
     i_event.preventDefault();
-    myPresentor.SetPartner('#' + $(i_this).attr('id'));
+    myPresentor.SetPartner('main');
+    myPresentor.ClearCurrMsgBox();
     var o_Requset = {
             "method": "GetFilteredCars",
             "params": {
-                "manufacturer": $('input[name="manufacturer"]').val(),
-                "category": $('input[name="category"]').val(),
-                "model": $('input[name="model"]').val(),
+                "manufacturer": $('select[name="manufacturer"]').val(),
+                "category": $('select[name="category"]').val(),
+                "model": $('select[name="model"]').val(),
                 "fromYear": $('input[name="from-year"]').val(),
                 "toYear": $('input[name="to-year"]').val(),
                 "fromMileage": $('input[name="from-mileage"]').val(),
                 "toMileage": $('input[name="to-mileage"]').val(),
                 "fromPrice": $('input[name="from-price"]').val(),
-                "toPrice": $('input[name="to-price"]').val()
+                "toPrice": $('input[name="to-price"]').val(),
+                "typeOfSale": ($('input[name="type-of-sale"]').is(':checked'))? "במבצע" : ''
             },
             "returntype": "json"
         };
+    
+    if (window.location.pathname.indexOf('search') > -1 && o_Requset.params.manufacturer == '' && o_Requset.params.category == '' && o_Requset.params.model == '' && o_Requset.params.fromYear == '' && o_Requset.params.toYear == '' && o_Requset.params.fromMileage == '' && o_Requset.params.toMileage == '' && o_Requset.params.fromPrice == '' && o_Requset.params.toPrice == '' && o_Requset.params.typeOfSale == 'רגיל' ) window.location.href = window.location.origin + window.location.pathname;
 
     myCaller.getSearchResaultsByRequest(o_Requset, 'main .output-message', true, function(i_response){
-        if (i_response.Data.length == 0) myPresentor.RespondNoResaultsMsg();
-        else {
+        if (i_response.Data.length == 0) {
+            mySearchResaultsDirector.clearResaultsPan(mySmallCarResaultsBuilder);
+            myPresentor.RespondNoResaultsMsg();
+        } else {
             mySmallCarResaultsBuilder.setResaultArr(i_response.Data);
             mySearchResaultsDirector.construct(mySmallCarResaultsBuilder);
 
@@ -100,10 +106,14 @@ function setNavBtnsAttr() {
     $.each(_pagesList, function (key, page) {
         if ((v_CurrPath.indexOf(page) > -1) || ((v_CurrPath === '/') && (page === 'index'))) {
             if (page === 'index') page = 'home';
-            $('#nav-' + page + '-Btn').addClass(_class);
+            
+            if (page === 'search') $('#nav-' + page + '-Btn').parent().addClass(_class);
+            else $('#nav-' + page + '-Btn').addClass(_class);
+            
             $('body').attr('id', page + '-page');
         } else {
-            $('#nav-' + page + '-Btn').removeClass(_class);
+            if (page === 'search') $('#nav-' + page + '-Btn').parent().removeClass(_class);
+            else $('#nav-' + page + '-Btn').removeClass(_class);
         }
     });
 }

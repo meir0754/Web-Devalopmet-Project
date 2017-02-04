@@ -148,6 +148,11 @@ AIDLib.MessagePresentor = (function(){
 	MessagePresentor.prototype.GetCurrMsgBox = function(){
 		return this.m_conversationPartner + ' ' + this.m_messageHolder;
 	}
+	
+	MessagePresentor.prototype.ClearCurrMsgBox = function(){
+		if ($(this.GetCurrMsgBox()).length < 1 || $(this.GetCurrMsgBox()) == undefined) return;
+		else $(this.GetCurrMsgBox()).text('');
+	}
 
 	MessagePresentor.prototype.RespondBaseErrorMsg = function(){
 		if (this.m_conversationPartner == '') console.error('no partner was setted for this conversation.');
@@ -170,7 +175,8 @@ AIDLib.MessagePresentor = (function(){
 	}
 	
 	MessagePresentor.prototype.RespondNoResaultsMsg = function(){
-		return this.m_baseNoResaultsMsg;
+		if (this.m_conversationPartner == '') console.error('no partner was setted for this conversation.');
+		else $(this.GetCurrMsgBox()).addClass(this.m_errorMessageClass).text(this.m_baseNoResaultsMsg);
 	}
 
 	return MessagePresentor;
@@ -289,6 +295,10 @@ AIDLib.SearchResaultsDirector = (function(){
 				o_callback();
 			});
 		});
+	}
+
+	SearchResaultsDirector.prototype.clearResaultsPan = function(i_builder){
+		i_builder.clearResaultsPan();
 	}
 
 	return SearchResaultsDirector;

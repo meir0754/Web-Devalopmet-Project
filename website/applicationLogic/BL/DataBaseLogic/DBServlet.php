@@ -63,19 +63,34 @@ class DBServlet {
 		$fromMileage = ($i_FilterParams->fromMileage == "")? 0 : $i_FilterParams->fromMileage;
 		$fromPrice = ($i_FilterParams->fromPrice == "")? 0 : $i_FilterParams->fromPrice;
 		//----/ to selectors
-		$toYear = ($i_FilterParams->toYear == "")? '(SELECT MAX(Year) FROM Cars)' : $i_FilterParams->toYear;
-		$toMileage = ($i_FilterParams->toMileage == "")? '(SELECT MAX(Mileage) FROM Cars)' : $i_FilterParams->toMileage;
-		$toPrice = ($i_FilterParams->toPrice == "")? '(SELECT MAX(Price) FROM Cars)' : $i_FilterParams->toPrice;
+		$toYear = ($i_FilterParams->toYear == "" || $i_FilterParams->toYear == 0)? '(SELECT MAX(Year) FROM Cars)' : $i_FilterParams->toYear;
+		$toMileage = ($i_FilterParams->toMileage == "" || $i_FilterParams->toMileage == 0)? '(SELECT MAX(Mileage) FROM Cars)' : $i_FilterParams->toMileage;
+		$toPrice = ($i_FilterParams->toPrice == "" || $i_FilterParams->toPrice == 0)? '(SELECT MAX(Price) FROM Cars)' : $i_FilterParams->toPrice;
+		//----/ validate range selectors
+		if (!$this->rangeSelectorsValidator($fromYear, $toYear)) {
+			$fromYear = 0;
+			$toYear = 1;
+		}
+		if (!$this->rangeSelectorsValidator($fromMileage, $toMileage)) {
+			$fromMileage = 0;
+			$toMileage = 1;
+		}
+		if (!$this->rangeSelectorsValidator($fromPrice, $toPrice)) {
+			$fromPrice = 0;
+			$toPrice = 1;
+		}
+
 		//----/ any selectors
 		$manufacturerQuery = ($i_FilterParams->manufacturer == "")? '(Manufacturer >= 0)' : '(Manufacturer="'.$i_FilterParams->manufacturer.'")';
 		$categoryQuery = ($i_FilterParams->category == "")? '(Category >= 0)' : '(Category="'.$i_FilterParams->category.'")';
 		$modelQuery = ($i_FilterParams->model == "")? '(Model >= 0)' : '(Model="'.$i_FilterParams->model.'")';
+		$saleQuery = ($i_FilterParams->typeOfSale == "")? '(Type_of_sale >= 0)' : '(Type_of_sale="'.$i_FilterParams->typeOfSale.'")';
 		//----/ agrigate queries
 		$yearQuery = '(Year BETWEEN '.$fromYear.' AND '.$toYear.')';
 		$mileageQuery = '(Mileage BETWEEN '.$fromMileage.' AND '.$toMileage.')';
 		$priceQuery = '(Price BETWEEN '.$fromPrice.' AND '.$toPrice.')';
 
-		$queryBase = 'SELECT * FROM Cars WHERE ('.$manufacturerQuery.' AND '.$categoryQuery.' AND '.$modelQuery.' AND '.$yearQuery.' AND '.$mileageQuery.' AND '.$priceQuery.')';
+		$queryBase = 'SELECT * FROM Cars WHERE ('.$manufacturerQuery.' AND '.$categoryQuery.' AND '.$modelQuery.' AND '.$yearQuery.' AND '.$mileageQuery.' AND '.$priceQuery.' AND '.$saleQuery.')';
 		
 		return $this->processOperation($queryBase);
 	}
@@ -89,8 +104,11 @@ class DBServlet {
 			$query->execute();	
 			$v_res = $query->fetchAll();
 
-			if (!$v_res) throw new PDOException("Error Processing Request", 1);
-			else { 
+			if (!$v_res) {
+				$this->m_Response->SetMsg('no results');
+				$this->m_Response->SetFlag(true);
+				$this->m_Response->SetData($this->generateValidResaultResponse($v_res));
+			} else { 
 				$this->m_Response->SetMsg('successful');
 				$this->m_Response->SetFlag(true);
 				$this->m_Response->SetData($this->generateValidResaultResponse($v_res));
@@ -132,9 +150,18 @@ class DBServlet {
 				'TotalResaultsNumber' => count($i_queryValue),
 				'Data' => $convertedArray
 			);
+		} else {
+			$v_res = array(
+				'TotalResaultsNumber' => 0,
+				'Data' => $i_queryValue
+			);
 		} 
 
 		return $v_res;
+	}
+
+	private function rangeSelectorsValidator($i_from, $i_to){
+		return (is_numeric($i_to) && $i_to < $i_from) ? false : true;
 	}
 
 	private function isConected(){ //----/ THIS IS A MUST - DONT MODIFY
