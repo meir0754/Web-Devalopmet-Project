@@ -37,6 +37,18 @@ class DBManager {
 	public function GetCarDetailsById($i_FilterParams){
 		return $this->execute($this->m_DbServlet->GetCarDetailsByIdFromTable($i_FilterParams));
 	}
+
+	public function GetSecondHandCars(){
+		return $this->execute($this->m_DbServlet->GetSecondHandCarsFromTable());
+	}
+	
+	public function GetNewCars(){
+		return $this->execute($this->m_DbServlet->GetNewCarsFromTable());
+	}
+	
+	public function GetCarsOnSale(){
+		return $this->execute($this->m_DbServlet->GetCarsOnSaleFromTable());
+	}
 	
 	/*----/ AID Funcs */
 	//---/ USE PRIVATE FUNCS HERE IF NEEDED

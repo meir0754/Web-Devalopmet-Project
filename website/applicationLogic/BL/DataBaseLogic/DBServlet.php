@@ -45,6 +45,18 @@ class DBServlet {
 		return $this->processOperation('SELECT * FROM Cars WHERE ID="'.$i_ID.'"');
 	}
 	
+	public function GetSecondHandCarsFromTable(){
+		return $this->processOperation('SELECT * FROM Cars WHERE Car_status="יד שניה"');
+	}
+	
+	public function GetNewCarsFromTable(){
+		return $this->processOperation('SELECT * FROM Cars WHERE Car_status="חדש"');
+	}
+	
+	public function GetCarsOnSaleFromTable(){
+		return $this->processOperation('SELECT * FROM Cars WHERE Type_of_sale="במבצע"');
+	}
+	
 	public function GetFilteredCarsInDb($i_FilterParams){
 		//----/ from selectors
 		$fromYear = ($i_FilterParams->fromYear == "")? 0 : $i_FilterParams->fromYear;

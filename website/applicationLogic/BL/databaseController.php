@@ -12,7 +12,10 @@ include "databaseManager.php"; //---/ include the manager class
 						"SendMail",
 						"GetAllCars",
 						"GetFilteredCars",
-						"GetCarDetailsById"
+						"GetCarDetailsById",
+						"GetSecondHandCars",
+						"GetNewCars",
+						"GetCarsOnSale"
 						);    
 // =======================================================================
 

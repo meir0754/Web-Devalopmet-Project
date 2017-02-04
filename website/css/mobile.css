@@ -138,8 +138,13 @@
     }
 
     #home-page .intro-img { min-height: 250px; }
+
+    .big-resault-img { height: 30vh; }
 }
 @media screen and (max-width: 420px) {
-	 
     #home-page .intro-img { min-height: 130px; }
+
+    .big-car-resault-prim-data-part { width: 100%; }
+
+    .big-resault-img { height: 20vh; }
 }

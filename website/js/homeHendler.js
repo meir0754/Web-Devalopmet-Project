@@ -4,6 +4,9 @@ Run(function(){
 
     //---/ Listeners
     $('.thumbnail-holder').click(function () {
-        //--use this elem to redirect here
+        var _baseUrl = window.location.origin,
+            _redirectTo = $(this).attr('data-redirect');
+        
+        window.location.href = _baseUrl + '/' + _redirectTo;
     });
 });

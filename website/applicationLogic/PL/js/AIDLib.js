@@ -26,19 +26,19 @@ function toggleLoadAnimation(i_obj) { //---/ make sure css is hooked aswell!
 	}
 }
 
-function isValidApplyHelper(i_FilterApply){
+function isValidApplyHelper(i_request){
 	var v_res = {
 		'valid': true,
 		'msg': ''
 	};
 
-	if (i_FilterApply == undefined || i_FilterApply == '' || i_FilterApply == null) {
+	if (i_request == undefined || i_request == '' || i_request == null) {
 		v_res.valid = false;
 		v_res.msg = 'Object is not defined.';
-	} else if (i_FilterApply.method == '' || i_FilterApply.method == null) {
+	} else if (i_request.method == '' || i_request.method == null) {
 		v_res.valid = false;
 		v_res.msg = 'Object method requset is not defined.';
-	} else if (i_FilterApply.params == undefined  || i_FilterApply.params == '' || i_FilterApply.params == null) {
+	} else if (i_request.params == undefined || i_request.params == null) {
 		v_res.valid = false;
 		v_res.msg = 'Object params is not defined.';
 	} 
@@ -103,23 +103,14 @@ AIDLib.Caller = (function(){
 		else o_callback(_isValidForm);
 	}
 	
-	Caller.prototype.requestFilteredResaults = function(i_filterApply, i_responseBox, i_toAnimateLoader, o_callback) {
-		var _isValidApply = isValidApplyHelper(i_filterApply);
+	Caller.prototype.getSearchResaultsByRequest = function(i_request, i_responseBox, i_toAnimateLoader, o_callback) {
+		var _apply = isValidApplyHelper(i_request);
 		
-		if (_isValidApply.valid) this.makeCall(i_filterApply, i_responseBox, i_toAnimateLoader, o_callback);
-		else o_callback(_isValidApply);
+		if (_apply.valid) this.makeCall(i_request, i_responseBox, i_toAnimateLoader, o_callback);
+		else o_callback(_apply);
 	}
 
 	//---/ Getters & Setters
-	Caller.prototype.getAllSearchResaults = function(i_animationParentSelector, i_toAnimateLoader, o_callback){
-		o_request = {
-			'method': 'GetAllCars',
-			'params': ''
-		};
-
-		this.makeCall(o_request, i_animationParentSelector, i_toAnimateLoader, o_callback);
-	}
-
 	Caller.prototype.getSearchResaultById = function(i_id, i_animationParentSelector, i_toAnimateLoader, o_callback){
 		o_request = {
 			'method': 'GetCarDetailsById',
@@ -285,9 +276,19 @@ AIDLib.BigResaultBuilder = (function(){
 AIDLib.SearchResaultsDirector = (function(){
 	function SearchResaultsDirector(){ }
 
-	SearchResaultsDirector.prototype.construct = function(i_builder){
+	SearchResaultsDirector.prototype.construct = function(i_builder, o_callback){
 		i_builder.clearResaultsPan();
 		i_builder.buildResaultBox();
+		if (typeof o_callback === 'function' && o_callback != 'undefined')  o_callback();
+	}
+
+	SearchResaultsDirector.prototype.displayResaults = function(i_request, i_animationParentSelector, i_toAnimateLoader, o_callback){
+		myCaller.getSearchResaultsByRequest(i_request ,i_animationParentSelector, i_toAnimateLoader, function(i_response){
+			mySmallCarResaultsBuilder.setResaultArr(i_response.Data);
+			mySearchResaultsDirector.construct(mySmallCarResaultsBuilder, function(){
+				o_callback();
+			});
+		});
 	}
 
 	return SearchResaultsDirector;

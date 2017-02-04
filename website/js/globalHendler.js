@@ -21,27 +21,13 @@ function SubmitFilterForm(i_this, i_event){
             "returntype": "json"
         };
 
-    myCaller.requestFilteredResaults(o_Requset, 'main .output-message', true, function(i_response){
+    myCaller.getSearchResaultsByRequest(o_Requset, 'main .output-message', true, function(i_response){
         if (i_response.Data.length == 0) myPresentor.RespondNoResaultsMsg();
         else {
             mySmallCarResaultsBuilder.setResaultArr(i_response.Data);
             mySearchResaultsDirector.construct(mySmallCarResaultsBuilder);
 
-            $('.car-mini-box').unbind('click');
-
-            $('.car-mini-box').click(function(){
-                var myBigCarResaultsBuilder = new AIDLib.BigResaultBuilder('#big-search-resault .lightbox-data-holder'),
-                    v_id = $(this).attr('id').match(/\d+/g)[0];
-                
-                myCaller.getSearchResaultById(v_id, '', false, function(i_response){
-                    myBigCarResaultsBuilder.setResaultArr(i_response.Data);
-                    mySearchResaultsDirector.construct(myBigCarResaultsBuilder);
-                    
-                    refactorCBFlex(function(){
-                        $('.lightbox-holder').show();
-                    });
-                });
-            });
+            bindNewSearchListeners();
         }
     });
 }
