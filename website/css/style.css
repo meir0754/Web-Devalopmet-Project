@@ -583,6 +583,8 @@ footer .output-message { color: white; }
 
 .lightbox-body-part {
     width: 100%;
+    padding: 0 15px;
+    box-sizing: border-box;
 }
 
 .close-lightbox-btn {
@@ -597,3 +599,21 @@ footer .output-message { color: white; }
 .close-lightbox-btn:hover {
     color: black;
 }
+
+.big-car-resault-prim-data-row {
+    width: 100%;
+    margin: 5px 0;
+}
+
+.big-resault-img {
+    height: 40vh;
+}
+
+.big-car-resault-prim-data-part {
+    width: 50%;
+}
+
+.big-car-resault-prim-data-part-item {
+    width: 100%;
+}
+

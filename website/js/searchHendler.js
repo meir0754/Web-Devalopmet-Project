@@ -9,16 +9,29 @@ Run(function () {
     //---/ Globe
     mySearchResaultsDirector = new AIDLib.SearchResaultsDirector(),
     mySmallCarResaultsBuilder = new AIDLib.SmallResaultBuilder('#search-resaults-holder');
-    myBigCarResaultsBuilder = new AIDLib.BigResaultBuilder('body');
     
     //---/ Process
     myCaller.getAllSearchResaults('main .output-message', true, function(i_response){
-        console.log(i_response); // TODO: remove once debug is done
         mySmallCarResaultsBuilder.setResaultArr(i_response.Data);
         mySearchResaultsDirector.construct(mySmallCarResaultsBuilder);
-    });
-    
 
-    //---/ Listeners
-    
+        //---/ Listeners
+        $('.car-mini-box').click(function(){
+            var myBigCarResaultsBuilder = new AIDLib.BigResaultBuilder('#big-search-resault .lightbox-data-holder'),
+                v_id = $(this).attr('id').match(/\d+/g)[0];
+            
+            myCaller.getSearchResaultById(v_id, '', false, function(i_response){
+                myBigCarResaultsBuilder.setResaultArr(i_response.Data);
+                mySearchResaultsDirector.construct(myBigCarResaultsBuilder);
+                
+                refactorCBFlex(function(){
+                    $('.lightbox-holder').show();
+                });
+            });
+        });
+
+        $('button.close-lightbox-btn').click(function(){
+            $('.lightbox-holder').hide();
+        });
+    });
 });

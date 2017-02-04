@@ -11,7 +11,8 @@ include "databaseManager.php"; //---/ include the manager class
 						"InsertNewApply",
 						"SendMail",
 						"GetAllCars",
-						"GetFilteredCars"
+						"GetFilteredCars",
+						"GetCarDetailsById"
 						);    
 // =======================================================================
 

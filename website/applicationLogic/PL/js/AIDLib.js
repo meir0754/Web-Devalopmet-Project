@@ -120,6 +120,15 @@ AIDLib.Caller = (function(){
 		this.makeCall(o_request, i_animationParentSelector, i_toAnimateLoader, o_callback);
 	}
 
+	Caller.prototype.getSearchResaultById = function(i_id, i_animationParentSelector, i_toAnimateLoader, o_callback){
+		o_request = {
+			'method': 'GetCarDetailsById',
+			'params': i_id
+		};
+
+		this.makeCall(o_request, i_animationParentSelector, i_toAnimateLoader, o_callback);
+	}
+
 	Caller.prototype.getLastResponse = function(){
 		return this.m_response;
 	}
@@ -249,16 +258,25 @@ AIDLib.BigResaultBuilder = (function(){
 
 	function BigResaultBuilder(i_parent){
 		//--/ 0=id, 1=img, 2=manufacturer, 3=model, 4=category, 5=year, 6=color, 7=mileage, 8=sale, 9=status, 10=price
-		this.m_defaultBigResaultTemplate = '<div class="lightbox-data-holder lightbox-body-part"><div id="{0}" class="big-resault" data-display="flex" data-flex-direction="column"><div class="big-resault-img img-center-align" style="background-image: url({1});"></div><div class="big-car-resault-prim-data" data-display="flex" data-flex-wrap="nowrap"><div class="big-car-resault-prim-data-part" data-display="flex" data-flex-direction="column"><div class="big-car-resault-prim-data-part-item"><b>יצרן: </b>{2}</div><div class="big-car-resault-prim-data-part-item"><b>דגם: </b>{3}</div><div class="big-car-resault-prim-data-part-item"><b>קטגוריה: </b>{4}</div><div class="big-car-resault-prim-data-part-item"><b>שנה: </b>{5}</div></div><div class="big-car-resault-prim-data-part" data-display="flex" data-flex-direction="column"><div class="big-car-resault-prim-data-part-item"><b>צבע: </b>{6}</div><div class="big-car-resault-prim-data-part-item"><b>קילומטרז: </b>{7}</div><div class="big-car-resault-prim-data-part-item"><b>מכירה: </b>{8}</div><div class="big-car-resault-prim-data-part-item"><b>יד: </b>{9}</div></div></div><div class="big-car-resault-prim-data-part"><b>החל ממחיר: </b>{10}</div></div></div>';
+		this.m_defaultBigResaultTemplate = '<div class="lightbox-data-holder lightbox-body-part"><div id="{0}" class="big-car-resault" data-display="flex" data-flex-direction="column"><div class="big-resault-img img-center-align big-car-resault-prim-data-row" style="background-image: url({1});"></div><div class="big-car-resault-prim-data-row" data-display="flex" data-flex-wrap="nowrap"><div class="big-car-resault-prim-data-part" data-display="flex" data-flex-direction="column"><div class="big-car-resault-prim-data-part-item"><b>יצרן: </b>{2}</div><div class="big-car-resault-prim-data-part-item"><b>דגם: </b>{3}</div><div class="big-car-resault-prim-data-part-item"><b>קטגוריה: </b>{4}</div><div class="big-car-resault-prim-data-part-item"><b>שנה: </b>{5}</div></div><div class="big-car-resault-prim-data-part" data-display="flex" data-flex-direction="column"><div class="big-car-resault-prim-data-part-item"><b>צבע: </b>{6}</div><div class="big-car-resault-prim-data-part-item"><b>קילומטרז: </b>{7}</div><div class="big-car-resault-prim-data-part-item"><b>מכירה: </b>{8}</div><div class="big-car-resault-prim-data-part-item"><b>יד: </b>{9}</div></div></div><div class="big-car-resault-prim-data-row"><b>החל ממחיר: </b>{10}</div></div></div>';
 		this.m_parent = (i_parent != '' || i_parent != undefined) ? i_parent : '';
 		m_searchResaultsBuilder.call(this, this.m_parent, this.m_defaultBigResaultTemplate);
 	}
 
 	inherit(m_searchResaultsBuilder, BigResaultBuilder);
 	
-	BigResaultBuilder.prototype.buildResaultBox = function(i_arr){
+	BigResaultBuilder.prototype.buildResaultBox = function(){
 		if (Object.prototype.toString.call(this.m_resaultsArr) != '[object Array]' || (Object.prototype.toString.call(this.m_resaultsArr) === '[object Array]' && this.m_resaultsArr.length == 0) || this.m_parent === '') console.log('missing parameters on search builder.');
-		else $(this.m_parent).append(this.m_resaultTemplate.format(i_arr)); //TODO: make build accomodations here
+		else {
+			var _res = '',
+				_template = this.m_resaultTemplate;
+
+			$.each(this.m_resaultsArr, function(key, car){
+				_res += _template.format([car.id, car.image, car.manufacturer, car.model, car.category, car.year, car.color, car.mileage, car.sale, car.status, car.price]);
+			});
+			
+			$(this.m_parent).append(_res);
+		}
 	}
 
 	return BigResaultBuilder;

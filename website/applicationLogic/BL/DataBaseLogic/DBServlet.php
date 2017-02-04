@@ -38,7 +38,11 @@ class DBServlet {
 	}
 
 	public function GetAllCarsInDb(){
-		return $this->processOperation("SELECT * FROM Cars");
+		return $this->processOperation('SELECT * FROM Cars');
+	}
+
+	public function GetCarDetailsByIdFromTable($i_ID){
+		return $this->processOperation('SELECT * FROM Cars WHERE ID="'.$i_ID.'"');
 	}
 	
 	public function GetFilteredCarsInDb($i_FilterParams){

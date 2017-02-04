@@ -17,6 +17,28 @@ var browser = getBrowser(),
 	FlexObjLib = FlexObjLib || {};
 
 //---------------------------------------------/ Aid funcs
+function refactorCBFlex(o_callback){
+	myElem = $('*[data-display="flex"]');
+
+	if (myFlexPan.getPanSize() > 0) myFlexPan.resetPan();
+
+	$.each(myElem, function () {
+		appendCbFlexProp[$(this).attr('data-display')](this);
+	});
+
+	$(window).unbind('resize');
+
+	$(window).resize(function () {
+		$.each(myElem, function () {
+			if ($(this).attr('data-wrap-width') != undefined) {
+				if ($(this).attr('data-wrap-width').match(/\d/g) != null) appendCbFlexProp[$(this).attr('data-display')](this);
+			}
+		});
+	});
+
+	if (typeof o_callback === 'function' && o_callback != 'undefined')  o_callback();
+}
+
 function getScreenOrient() {
 	if ((window.innerHeight) > (window.innerWidth)) {
 		return 'port';
@@ -580,19 +602,7 @@ var myFlexPan = new FlexObjLib.FlexPan(),
 //------------------------------------------------// HANDLER //-------------------------------------
 $(document).ready(function () {
 	var browser = getBrowser(),
-		myElem = $('*[data-display="flex"]');
-
-	if (myFlexPan.getPanSize() > 0) myFlexPan.resetPan();
-
-	$.each(myElem, function () {
-		appendCbFlexProp[$(this).attr('data-display')](this);
-	});
-
-	$(window).resize(function () {
-		$.each(myElem, function () {
-			if ($(this).attr('data-wrap-width') != undefined) {
-				if ($(this).attr('data-wrap-width').match(/\d/g) != null) appendCbFlexProp[$(this).attr('data-display')](this);
-			}
-		});
-	});
+		myElem = null; 
+	
+	refactorCBFlex();
 });
