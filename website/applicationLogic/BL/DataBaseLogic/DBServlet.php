@@ -29,7 +29,7 @@ class DBServlet {
 	
 	/*----/ Methodes */
 	public function InsertCustomerApplyInput($i_CostumerApply){
-		return $this->processOperation("INSERT INTO CustomerSupport(Full_Name, Phone, Mail, Date, Subject, Message) VALUES(".$i_CostumerApply->fullName.", ".$i_CostumerApply->phone.", ".$i_CostumerApply->mail.", ".$this->GetCurrentTime().", ".$i_CostumerApply->subject.", ".$i_CostumerApply->message.")");
+		return $this->processOperation(array(':fname' => $i_CostumerApply->fullName, ':phone' => $i_CostumerApply->phone, ':mail' => $i_CostumerApply->mail, ':subtime' => $this->GetCurrentTime(), ':subject' => $i_CostumerApply->subject, ':message' => $i_CostumerApply->message), 'insert');
 	}
 	
 	/*----/ Getters & Setters */
@@ -96,23 +96,33 @@ class DBServlet {
 	}
 
 	/*----/ AID Funcs */
-	private function processOperation($i_mysqlQuery){
+	private function processOperation($i_mysqlQuery, $i_type = 'select'){
 		try {
 			$this->initConnection();
 
-			$query = $this->m_Connection->prepare($i_mysqlQuery);
-			$query->execute();	
-			$v_res = $query->fetchAll();
+			if ($i_type == 'select') {
+				$query = $this->m_Connection->prepare($i_mysqlQuery);
+				$query->execute();
 
-			if (!$v_res) {
-				$this->m_Response->SetMsg('no results');
-				$this->m_Response->SetFlag(true);
-				$this->m_Response->SetData($this->generateValidResaultResponse($v_res));
-			} else { 
+				$v_res = $query->fetchAll();
+				
+				if (!$v_res) {
+					$this->m_Response->SetMsg('no results');
+					$this->m_Response->SetFlag(true);
+					$this->m_Response->SetData($this->generateValidResaultResponse($v_res));
+				} else { 
+					$this->m_Response->SetMsg('successful');
+					$this->m_Response->SetFlag(true);
+					$this->m_Response->SetData($this->generateValidResaultResponse($v_res));
+				}
+			} else {
+				$query = $this->m_Connection->prepare("INSERT INTO CustomerSupport (Full_Name, Phone, Mail, Date, Subject, Message) VALUES (:fname, :phone, :mail, :subtime, :subject, :message)");
+				$hasExec = $query->execute($i_mysqlQuery);
+
 				$this->m_Response->SetMsg('successful');
 				$this->m_Response->SetFlag(true);
-				$this->m_Response->SetData($this->generateValidResaultResponse($v_res));
-			}
+				$this->m_Response->SetData(true);
+			} 
 		} catch(PDOException $e) {
 			$this->setConnectionStat(false); 
 			$this->m_Response->SetMsg($e->getMessage()); 

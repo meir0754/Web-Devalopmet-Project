@@ -40,15 +40,19 @@ function SubmitFilterForm(i_this, i_event){
 
 function SubmitContactForm(i_this, i_event){
     i_event.preventDefault();
-    myPresentor.SetPartner('#' + $(i_this).attr('id'));
+
+    var _parent = '#' + $(i_this).attr('id');
+
+    myPresentor.SetPartner(_parent);
+    
     var o_Requset = {
             "method": "InsertNewApply",
             "params": {
-                "fullName": $('input[name="full_name"]').val(),
-                "phone": $('input[name="phone_number"]').val(),
-                "mail": $('input[name="email"]').val(),
-                "subject": $('select[name="subject"]').val(),
-                "message": $('textarea[name="message"]').val()
+                "fullName": $(_parent).find('input[name="full_name"]').val(),
+                "phone": $(_parent).find('input[name="phone_number"]').val(),
+                "mail": $(_parent).find('input[name="email"]').val(),
+                "subject": ($(_parent).find('select[name="subject"]').val() == undefined)? 'quick_form' : $(_parent).find('select[name="subject"]').val(),
+                "message": $(_parent).find('textarea[name="message"]').val()
             },
             "returntype": "json"
         };
@@ -84,7 +88,7 @@ function setPageGlobalScripts(o_callback) {
 
     var _path = window.location.pathname,
         _scriptSrcsList = ['applicationLogic/PL/js/AIDLib.js','js/navigationHelper.js', 'js/phoneCallerHelper.js', 'js/easyScrollHandler.js', 'js/navMenuHelper.js', 'applicationLogic/PL/js/pace.js', 'js/hamburgerBtnHendler.js', 'js/InvalidCustomBubble_HE.js'],
-        _scriptSrcsList = ['js/navigationHelper.js', 'js/phoneCallerHelper.js', 'js/easyScrollHandler.js', 'js/navMenuHelper.js', 'applicationLogic/PL/js/pace.js', 'js/hamburgerBtnHendler.js', 'js/InvalidCustomBubble_HE.js'],
+        //_scriptSrcsList = ['js/navigationHelper.js', 'js/phoneCallerHelper.js', 'js/easyScrollHandler.js', 'js/navMenuHelper.js', 'applicationLogic/PL/js/pace.js', 'js/hamburgerBtnHendler.js', 'js/InvalidCustomBubble_HE.js'],
         _currListToLoad = [];
 
     $.each(_scriptSrcsList, function (key, scriptSrc) {
