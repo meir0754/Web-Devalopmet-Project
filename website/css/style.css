@@ -621,3 +621,10 @@ footer .output-message { color: white; }
     width: 100%;
 }
 
+.promotional-video-holder {
+    width: 75%;
+    max-width: 420px;
+    min-width: 290px;
+    height: 315px;
+}
+
