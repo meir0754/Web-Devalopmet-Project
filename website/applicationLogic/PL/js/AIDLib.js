@@ -49,7 +49,7 @@ function isValidApplyHelper(i_request){
 
 function isValidFormApplyHelper(i_FormApply){
 	var v_res = {
-		'valid': true,
+		'valid': null,
 		'msg': ''
 	};
 
