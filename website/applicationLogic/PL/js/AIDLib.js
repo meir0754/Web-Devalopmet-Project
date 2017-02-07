@@ -59,7 +59,10 @@ function isValidFormApplyHelper(i_FormApply){
 	} else if (!(/^(\d[\s-]?)?[\(\[\s-]{0,2}?\d{2}[\)\]\s-]{0,2}?\d{3}[\s-]?\d{4}$/i.test(i_FormApply.params.phone))) {
 		v_res.valid = false;
 		v_res.msg = 'phone error';
-	} 
+	} else {
+		v_res.valid = true;
+		v_res.msg = 'ok';
+	}
 
 	if (!v_res.valid) console.log(v_res.msg);
 	return v_res;
