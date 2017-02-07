@@ -28,43 +28,43 @@ function toggleLoadAnimation(i_obj) { //---/ make sure css is hooked aswell!
 
 function isValidApplyHelper(i_request){
 	var v_res = {
-		'valid': true,
+		'Data': true,
 		'msg': ''
 	};
 
 	if (i_request == undefined || i_request == '' || i_request == null) {
-		v_res.valid = false;
+		v_res.Data = false;
 		v_res.msg = 'Object is not defined.';
 	} else if (i_request.method == '' || i_request.method == null) {
-		v_res.valid = false;
+		v_res.Data = false;
 		v_res.msg = 'Object method requset is not defined.';
 	} else if (i_request.params == undefined || i_request.params == null) {
-		v_res.valid = false;
+		v_res.Data = false;
 		v_res.msg = 'Object params is not defined.';
 	} 
 
-	if (!v_res.valid) console.log(v_res.msg);
+	if (!v_res.Data) console.log(v_res.msg);
 	return v_res;
 }
 
 function isValidFormApplyHelper(i_FormApply){
 	var v_res = {
-		'valid': null,
+		'Data': null,
 		'msg': ''
 	};
 
 	if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(i_FormApply.params.mail))) {
-		v_res.valid = false;
+		v_res.Data = false;
 		v_res.msg = 'mail error';
 	} else if (!(/^(\d[\s-]?)?[\(\[\s-]{0,2}?\d{2}[\)\]\s-]{0,2}?\d{3}[\s-]?\d{4}$/i.test(i_FormApply.params.phone))) {
-		v_res.valid = false;
+		v_res.Data = false;
 		v_res.msg = 'phone error';
 	} else {
-		v_res.valid = true;
+		v_res.Data = true;
 		v_res.msg = 'ok';
 	}
 
-	if (!v_res.valid) console.log(v_res.msg);
+	if (!v_res.Data) console.log(v_res.msg);
 	return v_res;
 }
 
@@ -102,14 +102,14 @@ AIDLib.Caller = (function(){
 		var _isValidApply = isValidApplyHelper(i_customerApply);
 			_isValidForm = isValidFormApplyHelper(i_customerApply);
 		
-		if (_isValidForm.valid && _isValidApply.valid) this.makeCall(i_customerApply, i_responseBox, i_toAnimateLoader, o_callback);
+		if (_isValidForm.Data && _isValidApply.Data) this.makeCall(i_customerApply, i_responseBox, i_toAnimateLoader, o_callback);
 		else o_callback(_isValidForm);
 	}
 	
 	Caller.prototype.getSearchResaultsByRequest = function(i_request, i_responseBox, i_toAnimateLoader, o_callback) {
 		var _apply = isValidApplyHelper(i_request);
 		
-		if (_apply.valid) this.makeCall(i_request, i_responseBox, i_toAnimateLoader, o_callback);
+		if (_apply.Data) this.makeCall(i_request, i_responseBox, i_toAnimateLoader, o_callback);
 		else o_callback(_apply);
 	}
 

@@ -97,9 +97,11 @@ class DBServlet {
 
 	/*----/ AID Funcs */
 	private function processOperation($i_mysqlQuery, $i_type = 'select'){
+		
 		try {
 			$this->initConnection();
-
+			
+				
 			if ($i_type == 'select') {
 				$query = $this->m_Connection->prepare($i_mysqlQuery);
 				$query->execute();
@@ -118,10 +120,10 @@ class DBServlet {
 			} else {
 				$query = $this->m_Connection->prepare("INSERT INTO CustomerSupport (Full_Name, Phone, Mail, Date, Subject, Message) VALUES (:fname, :phone, :mail, :subtime, :subject, :message)");
 				$hasExec = $query->execute($i_mysqlQuery);
-
+				
 				$this->m_Response->SetMsg('successful');
 				$this->m_Response->SetFlag(true);
-				$this->m_Response->SetData(true);
+				$this->m_Response->SetData($this->generateValidResaultResponse(true));
 			} 
 		} catch(PDOException $e) {
 			$this->setConnectionStat(false); 
