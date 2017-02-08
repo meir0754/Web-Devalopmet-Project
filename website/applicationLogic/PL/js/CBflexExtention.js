@@ -604,5 +604,5 @@ $(document).ready(function () {
 	var browser = getBrowser(),
 		myElem = null; 
 	
-	refactorCBFlex();
+	refactorCBFlex(); // TODO: insert function into FlexPan methods 
 });

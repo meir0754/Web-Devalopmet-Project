@@ -28,7 +28,7 @@ function toggleLoadAnimation(i_obj) { //---/ make sure css is hooked aswell!
 
 function isValidApplyHelper(i_request){
 	var v_res = {
-		'Data': true,
+		'Data': true, //TODO: modify like isValidFormApplyHelper
 		'msg': ''
 	};
 
@@ -257,7 +257,7 @@ AIDLib.BigResaultBuilder = (function(){
 	var m_searchResaultsBuilder = AIDLib.SearchResaultsBuilder;
 
 	function BigResaultBuilder(i_parent){
-		//--/ 0=id, 1=img, 2=manufacturer, 3=model, 4=category, 5=year, 6=color, 7=mileage, 8=sale, 9=status, 10=price
+		//--/ place holders mapping => 0=id, 1=img, 2=manufacturer, 3=model, 4=category, 5=year, 6=color, 7=mileage, 8=sale, 9=status, 10=price
 		this.m_defaultBigResaultTemplate = '<div class="lightbox-data-holder lightbox-body-part"><div id="{0}" class="big-car-resault" data-display="flex" data-flex-direction="column"><div class="big-resault-img img-center-align big-car-resault-prim-data-row" style="background-image: url({1});"></div><div class="big-car-resault-prim-data-row" data-display="flex" data-flex-wrap="nowrap"><div class="big-car-resault-prim-data-part" data-display="flex" data-flex-direction="column"><div class="big-car-resault-prim-data-part-item"><b>יצרן: </b>{2}</div><div class="big-car-resault-prim-data-part-item"><b>דגם: </b>{3}</div><div class="big-car-resault-prim-data-part-item"><b>קטגוריה: </b>{4}</div><div class="big-car-resault-prim-data-part-item"><b>שנה: </b>{5}</div></div><div class="big-car-resault-prim-data-part" data-display="flex" data-flex-direction="column"><div class="big-car-resault-prim-data-part-item"><b>צבע: </b>{6}</div><div class="big-car-resault-prim-data-part-item"><b>קילומטרז: </b>{7}</div><div class="big-car-resault-prim-data-part-item"><b>מכירה: </b>{8}</div><div class="big-car-resault-prim-data-part-item"><b>יד: </b>{9}</div></div></div><div class="big-car-resault-prim-data-row"><b>החל ממחיר: </b>{10}</div></div></div>';
 		this.m_parent = (i_parent != '' || i_parent != undefined) ? i_parent : '';
 		m_searchResaultsBuilder.call(this, this.m_parent, this.m_defaultBigResaultTemplate);

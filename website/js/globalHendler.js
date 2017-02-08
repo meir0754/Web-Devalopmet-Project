@@ -72,10 +72,10 @@ function matchFeilds(i_field_1, i_field_2) {
 
 function setPageGlobalScripts(o_callback) {
     function setScriptHelper(i_src) {
-        _currListToLoad.push(i_src);
+        _currListToLoad.push(i_src); // TODO: move command to parent function - no neen for an helper
     }
 
-    function getCurrScripts(i_scripts, o_callback) {
+    function getCurrScripts(i_scripts, o_callback) { // TODO: modify so will be able to handle one script at a time - not a list
         var _progress = 0;
         i_scripts.forEach(function(script) { 
             $.getScript(script, function () {
