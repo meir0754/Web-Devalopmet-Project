@@ -2,7 +2,7 @@
 var AIDLib = AIDLib || {};
 
 //----/ AID FUNCS
-function inherit(i_Base, i_Derived) {
+function inherit(i_Base, i_Derived) { //---/ enabling inheritance between classes 
 	function Dummy() { }
 	Dummy.prototype = i_Base.prototype;
 	i_Derived.prototype = new Dummy();
@@ -26,9 +26,9 @@ function toggleLoadAnimation(i_obj) { //---/ make sure css is hooked aswell!
 	}
 }
 
-function isValidApplyHelper(i_request){
+function isValidApplyHelper(i_request){ //---/ validate the request formation before sending it to server
 	var v_res = {
-		'Data': true, //TODO: modify like isValidFormApplyHelper
+		'Data': null,
 		'msg': ''
 	};
 
@@ -41,13 +41,16 @@ function isValidApplyHelper(i_request){
 	} else if (i_request.params == undefined || i_request.params == null) {
 		v_res.Data = false;
 		v_res.msg = 'Object params is not defined.';
-	} 
+	} else {
+		v_res.Data = true;
+		v_res.msg = 'ok';
+	}
 
 	if (!v_res.Data) console.log(v_res.msg);
 	return v_res;
 }
 
-function isValidFormApplyHelper(i_FormApply){
+function isValidFormApplyHelper(i_FormApply){ // validate the content of the request before sending it to the server
 	var v_res = {
 		'Data': null,
 		'msg': ''
@@ -69,7 +72,7 @@ function isValidFormApplyHelper(i_FormApply){
 }
 
 //----/ ENGINE		
-AIDLib.Caller = (function(){
+AIDLib.Caller = (function(){ //---/ Caller class is responsible on making the calls back and forth between client and server
 	//---/ Ctor
 	function Caller(i_pathToCall){
 		this.m_pathToCall = (i_pathToCall != undefined) ? i_pathToCall : '';
@@ -134,7 +137,7 @@ AIDLib.Caller = (function(){
 	return Caller;
 })();
 
-AIDLib.MessagePresentor = (function(){
+AIDLib.MessagePresentor = (function(){ //---/ MessagePresentor class is responsible on displaying the proper messages to the client upon hes requests from the server
 	function MessagePresentor(){
 		this.m_conversationPartner = '';
 		this.m_messageHolder = '.output-message';
@@ -185,7 +188,7 @@ AIDLib.MessagePresentor = (function(){
 	return MessagePresentor;
 })();
 
-AIDLib.SearchResaultsBuilder = (function(){
+AIDLib.SearchResaultsBuilder = (function(){ //---/ SearchResaultsBuilder class is an abstract class for a small resault and big resault (big resault is search lightbox - current context is single car presented in lightbox)
 	function SearchResaultsBuilder(i_parent, i_template){
 		//--/ 0 = id, 1 = img, 2 = item name, 3 = price
 		this.m_defaultResaultTemplate = (i_template != '' || i_template != undefined) ? i_template : '';
@@ -222,7 +225,7 @@ AIDLib.SearchResaultsBuilder = (function(){
 	return SearchResaultsBuilder;
 })();
 
-AIDLib.SmallResaultBuilder = (function(){
+AIDLib.SmallResaultBuilder = (function(){ //---/ SmallResaultBuilder class inherits SearchResaultsBuilder abs class and adds uniqu use to prevet multiple code stubs
 	var m_searchResaultsBuilder = AIDLib.SearchResaultsBuilder;
 
 	function SmallResaultBuilder(i_parent){
@@ -253,7 +256,7 @@ AIDLib.SmallResaultBuilder = (function(){
 	return SmallResaultBuilder;
 })();
 
-AIDLib.BigResaultBuilder = (function(){
+AIDLib.BigResaultBuilder = (function(){ //---/ BigResaultBuilder class inherits SearchResaultsBuilder abs class and adds uniqu use to prevet multiple code stubs
 	var m_searchResaultsBuilder = AIDLib.SearchResaultsBuilder;
 
 	function BigResaultBuilder(i_parent){
@@ -282,7 +285,7 @@ AIDLib.BigResaultBuilder = (function(){
 	return BigResaultBuilder;
 })();
 
-AIDLib.SearchResaultsDirector = (function(){
+AIDLib.SearchResaultsDirector = (function(){ //---/ SearchResaultsDirector class is responsible on building the requested resault
 	function SearchResaultsDirector(){ }
 
 	SearchResaultsDirector.prototype.construct = function(i_builder, o_callback){

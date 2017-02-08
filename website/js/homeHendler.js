@@ -1,5 +1,5 @@
 //----/ JQ HENDLER /----//
-Run(function(){
+Run(function(){ //---/ open function for global access - inits handlers and listeners 
     //---/ Globe
 
     //---/ Listeners

@@ -3,7 +3,7 @@ var mySearchResaultsDirector = {},
     mySmallCarResaultsBuilder = {};
 
 //----/ AID FUNCS /----//
-function bindNewSearchListeners(){
+function bindNewSearchListeners(){ //---/ resets new listeners bindings to search page once scope or thread has changed 
     $('.car-mini-box').unbind('click');
     $('button.close-lightbox-btn').unbind('click');
 
@@ -15,7 +15,7 @@ function bindNewSearchListeners(){
             myBigCarResaultsBuilder.setResaultArr(i_response.Data);
             mySearchResaultsDirector.construct(myBigCarResaultsBuilder);
             
-            refactorCBFlex(function(){
+            myFlexPanHandler.construct(function(){
                 $('.lightbox-holder').show();
             });
         });
@@ -26,7 +26,7 @@ function bindNewSearchListeners(){
     });
 }
 
-function generatePrimRequset(i_request){
+function generatePrimRequset(i_request){ //---/ generates valid request if is requested from outside the search page (nav bar or homepage)
     if (i_request == undefined || i_request == null) return;
 
     var _method = '';
@@ -59,7 +59,7 @@ function generatePrimRequset(i_request){
     };
 }
 
-function getClientRequest(){
+function getClientRequest(){ //---/ handles the requests made from outside the search page (nav bar or homepage)
     var _request = '',
         _key = '?',
         _path = window.location.search;
@@ -72,7 +72,7 @@ function getClientRequest(){
 }
 
 //----/ JQ HENDLER /----//
-Run(function () {
+Run(function () { //---/ open function for global access - inits handlers and listeners 
     //---/ Globe
     mySearchResaultsDirector = new AIDLib.SearchResaultsDirector(),
     mySmallCarResaultsBuilder = new AIDLib.SmallResaultBuilder('#search-resaults-holder');

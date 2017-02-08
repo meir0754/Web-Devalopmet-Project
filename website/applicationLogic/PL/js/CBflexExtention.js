@@ -17,28 +17,6 @@ var browser = getBrowser(),
 	FlexObjLib = FlexObjLib || {};
 
 //---------------------------------------------/ Aid funcs
-function refactorCBFlex(o_callback){
-	myElem = $('*[data-display="flex"]');
-
-	if (myFlexPan.getPanSize() > 0) myFlexPan.resetPan();
-
-	$.each(myElem, function () {
-		appendCbFlexProp[$(this).attr('data-display')](this);
-	});
-
-	$(window).unbind('resize');
-
-	$(window).resize(function () {
-		$.each(myElem, function () {
-			if ($(this).attr('data-wrap-width') != undefined) {
-				if ($(this).attr('data-wrap-width').match(/\d/g) != null) appendCbFlexProp[$(this).attr('data-display')](this);
-			}
-		});
-	});
-
-	if (typeof o_callback === 'function' && o_callback != 'undefined')  o_callback();
-}
-
 function getScreenOrient() {
 	if ((window.innerHeight) > (window.innerWidth)) {
 		return 'port';
@@ -583,26 +561,51 @@ FlexObjLib.FlexPan = (function () {
 	FlexPan.prototype.resetPan = function () {
 		this._pan.splice(0, this._pan.length);
 	};
-
+	
 	return FlexPan;
 })();
 
+FlexObjLib.FlexPanHandler = (function () {
+	function FlexPanHandler(i_FlexPan){
+		this._flexPan = i_FlexPan;
+	}
+
+	FlexPanHandler.prototype.refactorFlexPan = function(i_Elem){
+		var newFlexObj = new FlexObjLib.ParentBox(i_Elem);
+
+		this._flexPan.addFlexObj(newFlexObj);
+		this._flexPan.appendPropertys(newFlexObj);
+	}
+
+	FlexPanHandler.prototype.construct = function(o_callback){
+		var	_elem = $('*[data-display="flex"]');
+
+		if (this._flexPan.getPanSize() > 0) this._flexPan.resetPan();
+
+		$.each(_elem, function () {
+			myFlexPanHandler.refactorFlexPan(this);
+		});
+
+		$(window).unbind('resize');
+		$(window).resize(function () {
+			$.each(_elem, function () {
+				if ($(this).attr('data-wrap-width') != undefined) {
+					if ($(this).attr('data-wrap-width').match(/\d/g) != null) 
+						myFlexPanHandler.refactorFlexPan(this);
+				}
+			});
+		});
+
+		if (typeof o_callback === 'function' && o_callback != 'undefined')  o_callback();
+	}
+
+	return FlexPanHandler;
+})();
 
 //---------------------------------------------/ Factory
-var myFlexPan = new FlexObjLib.FlexPan(),
-	appendCbFlexProp = {
-		flex: function (i_Elem) {
-			var newFlexObj = new FlexObjLib.ParentBox(i_Elem);
-			myFlexPan.addFlexObj(newFlexObj);
-
-			myFlexPan.appendPropertys(newFlexObj);
-		}
-	};
+var myFlexPanHandler = new FlexObjLib.FlexPanHandler(new FlexObjLib.FlexPan());
 
 //------------------------------------------------// HANDLER //-------------------------------------
 $(document).ready(function () {
-	var browser = getBrowser(),
-		myElem = null; 
-	
-	refactorCBFlex(); // TODO: insert function into FlexPan methods 
+	myFlexPanHandler.construct();
 });

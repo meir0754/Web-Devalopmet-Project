@@ -2,7 +2,7 @@
 var theGangSiteHomePageAnimationFlag = {'hasVisited': true}; //---/ flags if site is in browser cash (no need to preload twice)
 
 //---/ Aid funcs
-function SubmitFilterForm(i_this, i_event){
+function SubmitFilterForm(i_this, i_event){ //---/ open function for global access to enable the search from out of the search page (quick access btns from nav menu and home page) - handles the filtering form submited from the client
     i_event.preventDefault();
     myPresentor.SetPartner('main');
     myPresentor.ClearCurrMsgBox();
@@ -71,11 +71,11 @@ function matchFeilds(i_field_1, i_field_2) {
 }
 
 function setPageGlobalScripts(o_callback) {
-    function setScriptHelper(i_src) {
-        _currListToLoad.push(i_src); // TODO: move command to parent function - no neen for an helper
+    function setScriptHelper(i_src) { //---/ private function to create the array of current scripts needed in the current context - enables maintainability while facading access
+        _currListToLoad.push(i_src);
     }
 
-    function getCurrScripts(i_scripts, o_callback) { // TODO: modify so will be able to handle one script at a time - not a list
+    function getCurrScripts(i_scripts, o_callback) { //---/ private function to get all current scripts needed in the current context while hiding visabilty from user (no need to expose internal functions - FYI there is no ability to edit htAccess file to revoke users access to hidden files) 
         var _progress = 0;
         i_scripts.forEach(function(script) { 
             $.getScript(script, function () {
@@ -86,12 +86,19 @@ function setPageGlobalScripts(o_callback) {
     }
 
     var _path = window.location.pathname,
-        _scriptSrcsList = ['applicationLogic/PL/js/AIDLib.js','js/navigationHelper.js', 'js/phoneCallerHelper.js', 'js/easyScrollHandler.js', 'js/navMenuHelper.js', 'applicationLogic/PL/js/pace.js', 'js/hamburgerBtnHendler.js', 'js/InvalidCustomBubble_HE.js'],
-        //_scriptSrcsList = ['js/navigationHelper.js', 'js/phoneCallerHelper.js', 'js/easyScrollHandler.js', 'js/navMenuHelper.js', 'applicationLogic/PL/js/pace.js', 'js/hamburgerBtnHendler.js', 'js/InvalidCustomBubble_HE.js'],
+        _scriptSrcsList = [
+            'applicationLogic/PL/js/imgsPreLoader.js',
+            'applicationLogic/PL/js/AIDLib.js',
+            'applicationLogic/PL/js/pace.js',
+            'js/navigationHelper.js',
+            'js/phoneCallerHelper.js',
+            'js/easyScrollHandler.js',
+            'js/navMenuHelper.js',
+            'js/hamburgerBtnHendler.js',
+            'js/InvalidCustomBubble_HE.js'],
         _currListToLoad = [];
 
-    $.each(_scriptSrcsList, function (key, scriptSrc) {
-        //---/ will load the animation only for the first time user enters the site and only for the home page - else will set session storage as true for next round
+    _scriptSrcsList.forEach(function (scriptSrc) { //---/ will load the animation only for the first time user enters the site and only for the home page - else will set session storage as true for next round
         if ((scriptSrc.indexOf('pace') > -1) && (_path === '/' ) && !(JSON.parse(sessionStorage.getItem('theGangSiteHomePageAnimationFlag')) != null && JSON.parse(sessionStorage.getItem('theGangSiteHomePageAnimationFlag')).hasVisited) ) {
             setScriptHelper(scriptSrc);
             sessionStorage.setItem('theGangSiteHomePageAnimationFlag', JSON.stringify(theGangSiteHomePageAnimationFlag));
@@ -101,12 +108,12 @@ function setPageGlobalScripts(o_callback) {
     getCurrScripts(_currListToLoad, o_callback);
 }
 
-function setNavBtnsAttr() {
+function setNavBtnsAttr() { //---/ sets and handle the current context in the nav bar
     var _pagesList = ['index', 'about', 'search', 'contact', 'regulation'],
         v_CurrPath = window.location.pathname,
         _class = 'nav-btn-active';
 
-    $.each(_pagesList, function (key, page) {
+    _pagesList.forEach(function (page) {
         if ((v_CurrPath.indexOf(page) > -1) || ((v_CurrPath === '/') && (page === 'index'))) {
             if (page === 'index') page = 'home';
             
@@ -122,7 +129,7 @@ function setNavBtnsAttr() {
 }
 
 //----/ JS ONLOAD HENDLER /----//
-function Run(o_callback){
+function Run(o_callback){ //---/ open function for global access - inits handlers and listeners 
     setPageGlobalScripts(function(){
         //----/ JQ READY HENDLER /----//
         $(function () {
